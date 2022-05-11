@@ -22,9 +22,6 @@ export const onPullDownRefresh = () => {}
 /** 页面上拉触底事件的处理函数 */
 export const onReachBottom = () => {}
 
-/** 用户点击右上角转发 */
-export const onShareAppMessage = () => {}
-
 /** 用户点击右上角转发到朋友圈 */
 export const onShareTimeline = () => {}
 

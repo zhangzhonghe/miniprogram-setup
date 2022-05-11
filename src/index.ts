@@ -1,4 +1,5 @@
 type DataOption = WechatMiniprogram.Component.DataOption;
+type CustomOption = WechatMiniprogram.Page.CustomOption;
 type PropertyOption = WechatMiniprogram.Component.PropertyOption;
 type MethodOption = WechatMiniprogram.Component.MethodOption;
 
@@ -12,6 +13,14 @@ export const ComponentWithLifecycle = (
     PropertyOption,
     MethodOption
   > & { setup?: Setup }
-): string => {
+) => {
   return Component(options);
+};
+
+export const PageWithLifecycle = (
+  options: WechatMiniprogram.Page.Options<DataOption, CustomOption> & {
+    setup?: Setup;
+  }
+) => {
+  return Page(options);
 };
