@@ -1,5 +1,6 @@
-import { NOOP } from "./shared";
+import { NOOP } from './shared';
 
-export const getUpdateData = () => {
-  return NOOP;
-};
+let updateData = NOOP;
+
+export const getUpdateData = () => updateData;
+export const setUpdateData = (value: () => void) => (updateData = value);
