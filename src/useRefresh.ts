@@ -1,4 +1,4 @@
-import { getUpdateData } from "./updateData";
+import { getUpdateData } from './updateData';
 
 const awaiting = new Map<() => void, true>();
 
@@ -22,5 +22,5 @@ export const useRefresh = (handler: (...params: any) => any) => {
 };
 
 const nextTick = (handler?: () => void) => {
-  return Promise.resolve(handler);
+  return Promise.resolve().then(handler);
 };

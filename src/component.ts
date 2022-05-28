@@ -31,11 +31,9 @@ export const ComponentWithLifecycle = (options: ComponentOptions) => {
 const runComponentSetup = (options: ComponentOptions) => {
   const lifecycleStore = initLifecycleStore();
   let updateData = NOOP;
-
-  registerLifecyle(lifecycleStore, options.lifetimes);
   setUpdateData(() => updateData());
-
   const getData = options.setup!();
+
   registerDataAndMethod(options, getData());
   onCreated(function () {
     updateData = () => {
@@ -50,13 +48,13 @@ const runComponentSetup = (options: ComponentOptions) => {
       this.setData(data);
     };
   });
+
+  registerLifecyle(lifecycleStore, options);
 };
 
-const registerLifecyle = (
-  lifecycleStore: LifecycleStore,
-  lifetimes?: ComponentOptions['lifetimes']
-) => {
-  if (!lifetimes) return;
+const registerLifecyle = (lifecycleStore: LifecycleStore, options: ComponentOptions) => {
+  const lifetimes = (options.lifetimes = options.lifetimes || {});
+
   forEachObj(lifetimes, (handler, key) => {
     registerComponentLifecyle(key as any, handler);
   });
