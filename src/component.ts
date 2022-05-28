@@ -4,7 +4,7 @@ import {
   onCreated,
   registerComponentLifecyle,
 } from './componentLifecycle';
-import { forEachObj, isFunction } from './shared';
+import { forEachObj, isFunction, NOOP } from './shared';
 import { setUpdateData } from './updateData';
 
 type DataOption = WechatMiniprogram.Component.DataOption;
@@ -30,11 +30,15 @@ export const ComponentWithLifecycle = (options: ComponentOptions) => {
 
 const runComponentSetup = (options: ComponentOptions) => {
   const lifecycleStore = initLifecycleStore();
+  let updateData = NOOP;
+
   registerLifecyle(lifecycleStore, options.lifetimes);
+  setUpdateData(() => updateData());
+
   const getData = options.setup!();
   registerDataAndMethod(options, getData());
   onCreated(function () {
-    setUpdateData(() => {
+    updateData = () => {
       const data = getData();
       forEachObj(data, (v, key) => {
         if (isFunction(v)) {
@@ -44,7 +48,7 @@ const runComponentSetup = (options: ComponentOptions) => {
       // this 指向组件示例
       // @ts-ignore
       this.setData(data);
-    });
+    };
   });
 };
 
