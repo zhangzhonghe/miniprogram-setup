@@ -1,7 +1,7 @@
 {
   "name": "miniprogram-lifecycle",
   "version": "0.0.1",
-  "description": "在任何 JavaScript 文件中都可以注册小程序页面或组件的生命周期。",
+  "description": "在任何地方都可以注册小程序的生命周期。",
   "main": "index.js",
   "scripts": {
     "test": "jest",
