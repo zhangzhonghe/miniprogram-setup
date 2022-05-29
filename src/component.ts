@@ -6,6 +6,7 @@ import {
 } from './componentLifecycle';
 import { forEachObj, isFunction, NOOP } from './shared';
 import { setUpdateData } from './updateData';
+import { nextTick } from './useRefresh';
 
 type DataOption = WechatMiniprogram.Component.DataOption;
 type PropertyOption = WechatMiniprogram.Component.PropertyOption;
@@ -102,5 +103,5 @@ const registerDataAndMethod = (componentInstance: any, dataAndMethod: Record<str
       data[key] = v;
     }
   });
-  onAttached(() => componentInstance.setData(data));
+  nextTick(() => componentInstance.setData(data));
 };

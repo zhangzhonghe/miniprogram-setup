@@ -21,6 +21,6 @@ export const useRefresh = (handler: (...params: any) => any) => {
   };
 };
 
-const nextTick = (handler?: () => void) => {
+export const nextTick = (handler?: () => void) => {
   return Promise.resolve().then(handler);
 };
