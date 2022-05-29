@@ -20,7 +20,7 @@ type ComponentOptions<
   TProperty extends PropertyOption,
   TMethod extends MethodOption
 > = WechatMiniprogram.Component.Options<TData, TProperty, TMethod> & {
-  setup?: Setup<TProperty>;
+  setup?: Setup<WechatMiniprogram.Component.PropertyOptionToData<TProperty>>;
 };
 
 export const ComponentWithSetup = <
@@ -69,7 +69,7 @@ const runComponentSetup = <TData, TProperty extends PropertyOption, TMethod exte
         });
       });
     }
-    const getData = options.setup!(props);
+    const getData = options.setup!(props as any);
     registerDataAndMethod(this, getData());
   };
 };
