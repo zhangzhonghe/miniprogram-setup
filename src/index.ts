@@ -1,5 +1,5 @@
-export { ComponentWithLifecycle } from './component';
-export { PageWithLifecycle } from './page';
+export { ComponentWithSetup } from './component';
+export { PageWithSetup } from './page';
 export { useRefresh } from './useRefresh';
 export { onCreated, onAttached, onDetached, onReady, onMoved, onError } from './componentLifecycle';
 export {

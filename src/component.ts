@@ -11,24 +11,34 @@ type DataOption = WechatMiniprogram.Component.DataOption;
 type PropertyOption = WechatMiniprogram.Component.PropertyOption;
 type MethodOption = WechatMiniprogram.Component.MethodOption;
 
-interface Setup {
-  (): () => Record<string, any>;
+interface Setup<T> {
+  (data: T): () => Record<string, any>;
 }
 
-type ComponentOptions = WechatMiniprogram.Component.Options<
-  DataOption,
-  PropertyOption,
-  MethodOption
-> & { setup?: Setup };
+type ComponentOptions<
+  TData extends DataOption,
+  TProperty extends PropertyOption,
+  TMethod extends MethodOption
+> = WechatMiniprogram.Component.Options<TData, TProperty, TMethod> & {
+  setup?: Setup<TData & TProperty>;
+};
 
-export const ComponentWithLifecycle = (options: ComponentOptions) => {
+export const ComponentWithSetup = <
+  TData,
+  TProperty extends PropertyOption,
+  TMethod extends MethodOption
+>(
+  options: ComponentOptions<TData, TProperty, TMethod>
+) => {
   if (options.setup) {
     runComponentSetup(options);
   }
   return Component(options);
 };
 
-const runComponentSetup = (options: ComponentOptions) => {
+const runComponentSetup = <TData, TProperty extends PropertyOption, TMethod extends MethodOption>(
+  options: ComponentOptions<TData, TProperty, TMethod>
+) => {
   const lifecycleStore = initLifecycleStore();
   let updateData = NOOP;
   setUpdateData(() => updateData());
@@ -52,7 +62,10 @@ const runComponentSetup = (options: ComponentOptions) => {
   registerLifecyle(lifecycleStore, options);
 };
 
-const registerLifecyle = (lifecycleStore: LifecycleStore, options: ComponentOptions) => {
+const registerLifecyle = <TData, TProperty extends PropertyOption, TMethod extends MethodOption>(
+  lifecycleStore: LifecycleStore,
+  options: ComponentOptions<TData, TProperty, TMethod>
+) => {
   const lifetimes = (options.lifetimes = options.lifetimes || {});
 
   forEachObj(lifetimes, (handler, key) => {
@@ -66,14 +79,23 @@ const registerLifecyle = (lifecycleStore: LifecycleStore, options: ComponentOpti
   });
 };
 
-const registerDataAndMethod = (options: ComponentOptions, data: Record<string, any>) => {
-  options.data = options.data || {};
-  options.methods = options.methods || {};
+const registerDataAndMethod = <
+  TData,
+  TProperty extends PropertyOption,
+  TMethod extends MethodOption
+>(
+  options: ComponentOptions<TData, TProperty, TMethod>,
+  data: Record<string, any>
+) => {
+  options.data = options.data || {} as any;
+  options.methods = options.methods || {} as any;
   forEachObj(data, (v, key) => {
     if (isFunction(v)) {
-      options.methods![key] = v;
+      // @ts-ignore
+      options.methods[key] = v;
     } else {
-      options.data![key] = v;
+      // @ts-ignore
+      options.data[key] = v;
     }
   });
 };
