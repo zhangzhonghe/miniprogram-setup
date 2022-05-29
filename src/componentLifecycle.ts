@@ -1,22 +1,14 @@
 type Fn = (...args: any[]) => void;
 
 export interface LifecycleStore {
-  created?: Fn[];
-  attached?: Fn[];
-  ready?: Fn[];
-  moved?: Fn[];
-  detached?: Fn[];
-  error?: Fn[];
+  attached: Fn[];
+  ready: Fn[];
+  moved: Fn[];
+  detached: Fn[];
+  error: Fn[];
 }
 
 let lifecycleStore: LifecycleStore | null = null;
-
-/**
- * 在组件实例刚刚被创建时执行
- *
- * 最低基础库版本：[`2.2.3`](https://developers.weixin.qq.com/miniprogram/dev/framework/compatibility.html)
- */
-export const onCreated = (handler: () => void) => registerComponentLifecyle('created', handler);
 
 /**
  * 在组件实例进入页面节点树时执行
@@ -54,7 +46,14 @@ export const onDetached = (handler: () => void) => registerComponentLifecyle('de
 export const onError = (handler: (err: Error) => void) =>
   registerComponentLifecyle('error', handler);
 
-export const initLifecycleStore = (): LifecycleStore => (lifecycleStore = {});
+export const initLifecycleStore = (): LifecycleStore =>
+  (lifecycleStore = {
+    attached: [],
+    ready: [],
+    moved: [],
+    detached: [],
+    error: [],
+  });
 
 export const registerComponentLifecyle = (
   type: keyof LifecycleStore,

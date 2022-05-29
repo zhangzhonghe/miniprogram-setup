@@ -1,7 +1,7 @@
 import {
   initLifecycleStore,
   LifecycleStore,
-  onCreated,
+  onAttached,
   registerComponentLifecyle,
 } from './componentLifecycle';
 import { forEachObj, isFunction, NOOP } from './shared';
@@ -39,14 +39,14 @@ export const ComponentWithSetup = <
 const runComponentSetup = <TData, TProperty extends PropertyOption, TMethod extends MethodOption>(
   options: ComponentOptions<TData, TProperty, TMethod>
 ) => {
-  const lifecycleStore = initLifecycleStore();
-  let updateData = NOOP;
-  setUpdateData(() => updateData());
-  const getData = options.setup!();
+  const lifecycleStore = initLifecycleStore(),
+    originCreated = options.lifetimes?.['created'] || options.created;
 
-  registerDataAndMethod(options, getData());
-  onCreated(function () {
-    updateData = () => {
+  registerLifecyle(lifecycleStore, options);
+
+  (options.lifetimes || (options.lifetimes = {})).created = function (this: any) {
+    originCreated?.();
+    setUpdateData(() => {
       const data = getData();
       forEachObj(data, (v, key) => {
         if (isFunction(v)) {
@@ -54,12 +54,11 @@ const runComponentSetup = <TData, TProperty extends PropertyOption, TMethod exte
         }
       });
       // this 指向组件示例
-      // @ts-ignore
       this.setData(data);
-    };
-  });
-
-  registerLifecyle(lifecycleStore, options);
+    });
+    const getData = options.setup!(this.data);
+    registerDataAndMethod(this, getData());
+  };
 };
 
 const registerLifecyle = <TData, TProperty extends PropertyOption, TMethod extends MethodOption>(
@@ -79,23 +78,14 @@ const registerLifecyle = <TData, TProperty extends PropertyOption, TMethod exten
   });
 };
 
-const registerDataAndMethod = <
-  TData,
-  TProperty extends PropertyOption,
-  TMethod extends MethodOption
->(
-  options: ComponentOptions<TData, TProperty, TMethod>,
-  data: Record<string, any>
-) => {
-  options.data = options.data || {} as any;
-  options.methods = options.methods || {} as any;
-  forEachObj(data, (v, key) => {
+const registerDataAndMethod = (componentInstance: any, dataAndMethod: Record<string, any>) => {
+  const data: any = {};
+  forEachObj(dataAndMethod, (v, key) => {
     if (isFunction(v)) {
-      // @ts-ignore
-      options.methods[key] = v;
+      componentInstance[key] = v;
     } else {
-      // @ts-ignore
-      options.data[key] = v;
+      data[key] = v;
     }
   });
+  onAttached(() => componentInstance.setData(data));
 };
