@@ -20,7 +20,7 @@ type ComponentOptions<
   TProperty extends PropertyOption,
   TMethod extends MethodOption
 > = WechatMiniprogram.Component.Options<TData, TProperty, TMethod> & {
-  setup?: Setup<TData & TProperty>;
+  setup?: Setup<TProperty>;
 };
 
 export const ComponentWithSetup = <
@@ -56,7 +56,20 @@ const runComponentSetup = <TData, TProperty extends PropertyOption, TMethod exte
       // this 指向组件示例
       this.setData(data);
     });
-    const getData = options.setup!(this.data);
+    const props = {} as TProperty;
+    if (options.properties) {
+      forEachObj(options.properties, (v, key) => {
+        Object.defineProperty(props, key, {
+          get() {
+            return this.data[key];
+          },
+          set() {
+            console.warn(`props 是只读的，无法修改 key 为 ${key} 的值。`);
+          },
+        });
+      });
+    }
+    const getData = options.setup!(props);
     registerDataAndMethod(this, getData());
   };
 };
