@@ -1,7 +1,7 @@
 import {
   initLifecycleStore,
   LifecycleStore,
-  onAttached,
+  onDetached,
   registerComponentLifecyle,
 } from './componentLifecycle';
 import { forEachObj, isFunction, NOOP } from './shared';
@@ -74,6 +74,14 @@ const runComponentSetup = <TData, TProperty extends PropertyOption, TMethod exte
     }
     const getData = options.setup!(props as any);
     registerDataAndMethod(this, getData());
+
+    // 需放在 setup 之后，不然其它注册的 detached 函数不会执行
+    onDetached(() => {
+      // 组件销毁时清空已注册的生命周期函数
+      forEachObj(lifecycleStore, (list: any[]) => {
+        list.length = 0;
+      });
+    });
   };
 };
 
