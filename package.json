@@ -3,6 +3,7 @@
   "version": "0.0.2",
   "description": "在任何地方都可以注册小程序的生命周期。",
   "main": "esm/index.js",
+  "types": "esm/index.d.ts",
   "scripts": {
     "test": "jest",
     "dev": "cross-env NODE_ENV=development rollup -c",
