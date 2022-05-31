@@ -1,7 +1,7 @@
 {
   "name": "miniprogram-setup",
   "version": "0.0.3",
-  "description": "在任何地方都可以注册小程序的生命周期。",
+  "description": "没有任何依赖的小程序组合式 API",
   "main": "esm/index.js",
   "types": "esm/index.d.ts",
   "scripts": {
