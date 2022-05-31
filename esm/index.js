@@ -102,7 +102,7 @@ const runComponentSetup = (options) => {
         if (options.properties) {
             forEachObj(options.properties, (v, key) => {
                 Object.defineProperty(props, key, {
-                    get() {
+                    get: () => {
                         return this.data[key];
                     },
                     set() {

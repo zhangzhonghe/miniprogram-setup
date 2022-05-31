@@ -61,7 +61,7 @@ const runComponentSetup = <TData, TProperty extends PropertyOption, TMethod exte
     if (options.properties) {
       forEachObj(options.properties, (v, key) => {
         Object.defineProperty(props, key, {
-          get() {
+          get: () => {
             return this.data[key];
           },
           set() {
