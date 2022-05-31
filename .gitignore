@@ -1,7 +1,4 @@
 node_modules
-dist
-lib
-esm
 .DS_Store
 **/.DS_Store
 *.log
