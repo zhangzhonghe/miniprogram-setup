@@ -2,7 +2,7 @@
   "name": "miniprogram-setup",
   "version": "0.0.1",
   "description": "在任何地方都可以注册小程序的生命周期。",
-  "main": "index.js",
+  "main": "esm/index.js",
   "scripts": {
     "test": "jest",
     "dev": "cross-env NODE_ENV=development rollup -c",
