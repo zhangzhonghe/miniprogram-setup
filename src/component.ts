@@ -46,7 +46,7 @@ const runComponentSetup = <TData, TProperty extends PropertyOption, TMethod exte
   registerLifecyle(lifecycleStore, options);
 
   (options.lifetimes || (options.lifetimes = {})).created = function (this: any) {
-    originCreated?.();
+    originCreated?.call(this);
     setUpdateData(() => {
       const data = getData();
       forEachObj(data, (v, key) => {
