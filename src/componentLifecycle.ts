@@ -60,6 +60,6 @@ export const registerComponentLifecyle = (
   handler: (...args: any[]) => void
 ) => {
   if (lifecycleStore) {
-    (lifecycleStore[type] || (lifecycleStore[type] = [])).push(handler);
+    lifecycleStore[type].push(handler);
   }
 };
