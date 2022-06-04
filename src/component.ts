@@ -41,7 +41,8 @@ const runComponentSetup = <TData, TProperty extends PropertyOption, TMethod exte
   options: ComponentOptions<TData, TProperty, TMethod>
 ) => {
   const lifecycleStore = initLifecycleStore(),
-    originCreated = options.lifetimes?.['created'] || options.created;
+    originCreated = options.lifetimes?.['created'] || options.created,
+    props = {} as TProperty;
 
   registerLifecyle(lifecycleStore, options);
 
@@ -57,7 +58,7 @@ const runComponentSetup = <TData, TProperty extends PropertyOption, TMethod exte
       // this 指向组件示例
       this.setData(data);
     });
-    const props = {} as TProperty;
+
     if (options.properties) {
       forEachObj(options.properties, (v, key) => {
         Object.defineProperty(props, key, {
