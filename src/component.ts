@@ -96,8 +96,7 @@ const registerLifecyle = <TData, TProperty extends PropertyOption, TMethod exten
   });
   forEachObj(lifecycleStore, (handlerSet: any[], key) => {
     lifetimes[key] = function (...args: any[]) {
-      // 保持 this 的引用指向组件示例
-      handlerSet.forEach((handler) => handler.call(this, ...args));
+      handlerSet.forEach((handler) => handler(...args));
     };
   });
 };
