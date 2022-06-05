@@ -9,7 +9,7 @@ import {
 } from './componentLifecycle';
 import { setCurrentInstance } from './instance';
 import { forEachObj, isFunction } from './shared';
-import { resetUpdateData, setUpdateData } from './updateData';
+import { getUpdateData, resetUpdateData, setUpdateData } from './updateData';
 import { useRefresh } from './useRefresh';
 
 type DataOption = WechatMiniprogram.Component.DataOption;
@@ -78,9 +78,25 @@ const runComponentSetup = <TData, TProperty extends PropertyOption, TMethod exte
   options: ComponentOptions<TData, TProperty, TMethod>
 ) => {
   const lifecycleStore = initLifecycleStore(),
-    originLifetimes = getOldLifetimes(options);
+    originLifetimes = getOldLifetimes(options),
+    propsKeys = getPropKey(options),
+    oldObserver = options.observers?.[propsKeys];
 
   registerLifecyle(lifecycleStore, options);
+
+  // 当组件的 properties 变更时，确保
+  // setup 中的状态也能及时更新。
+  if (propsKeys) {
+    (options.observers || (options.observers = {}))[propsKeys] = function (
+      this: any,
+      ...args: any[]
+    ) {
+      oldObserver?.call(this, ...args);
+
+      // setup 返回的函数
+      this.$$updateData?.();
+    };
+  }
 
   /**
    * 在组件 attached 时运行 setup，因为只有
@@ -106,6 +122,9 @@ const runComponentSetup = <TData, TProperty extends PropertyOption, TMethod exte
       // this 指向组件示例
       this.setData(data);
     });
+
+    // @ts-ignore
+    this.$$updateData = getUpdateData();
 
     if (options.properties) {
       forEachObj(options.properties, (v, key) => {
@@ -180,6 +199,12 @@ const getContext = (instance: any) => {
   }
 
   return result;
+};
+
+const getPropKey = (options: any) => {
+  const props = options.properties;
+  if (!props) return '';
+  return Object.keys(props).join(',');
 };
 
 const registerLifecyle = <TData, TProperty extends PropertyOption, TMethod extends MethodOption>(

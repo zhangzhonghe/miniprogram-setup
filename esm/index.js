@@ -121,8 +121,19 @@ const ComponentWithSetup = (options) => {
     return Component(options);
 };
 const runComponentSetup = (options) => {
-    const lifecycleStore = initLifecycleStore(), originLifetimes = getOldLifetimes(options);
+    var _a;
+    const lifecycleStore = initLifecycleStore(), originLifetimes = getOldLifetimes(options), propsKeys = getPropKey(options), oldObserver = (_a = options.observers) === null || _a === void 0 ? void 0 : _a[propsKeys];
     registerLifecyle(lifecycleStore, options);
+    // 当组件的 properties 变更时，确保
+    // setup 中的状态也能及时更新。
+    if (propsKeys) {
+        (options.observers || (options.observers = {}))[propsKeys] = function (...args) {
+            var _a;
+            oldObserver === null || oldObserver === void 0 ? void 0 : oldObserver.call(this, ...args);
+            // setup 返回的函数
+            (_a = this.$$updateData) === null || _a === void 0 ? void 0 : _a.call(this);
+        };
+    }
     /**
      * 在组件 attached 时运行 setup，因为只有
      * 此时才能获取 properties 中的值。
@@ -146,6 +157,8 @@ const runComponentSetup = (options) => {
             // this 指向组件示例
             this.setData(data);
         });
+        // @ts-ignore
+        this.$$updateData = getUpdateData();
         if (options.properties) {
             forEachObj(options.properties, (v, key) => {
                 Object.defineProperty(props, key, {
@@ -214,6 +227,12 @@ const getContext = (instance) => {
         });
     }
     return result;
+};
+const getPropKey = (options) => {
+    const props = options.properties;
+    if (!props)
+        return '';
+    return Object.keys(props).join(',');
 };
 const registerLifecyle = (lifecycleStore, options) => {
     const lifetimes = (options.lifetimes = options.lifetimes || {});
