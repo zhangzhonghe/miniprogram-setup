@@ -276,4 +276,4 @@ const registerDataAndMethod = (componentInstance, dataAndMethod) => {
     componentInstance.setData(data);
 };
 
-export { ComponentWithSetup, onDetached, onError, onMoved, onReady };
+export { ComponentWithSetup, onDetached, onError, onMoved, onReady, useRefresh };
