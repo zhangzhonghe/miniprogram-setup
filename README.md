@@ -24,6 +24,9 @@ ComponentWithSetup({
     default: Number
   },
 
+  // 可以访问 properties 的值和绑定到组件实例上的 API，
+  // 注意：在 setup 中不能访问 data 和 method 中的值，
+  // 这是有意做的一层隔离。
   setup(props, { triggerEvent }) {
     let count = props.default;
 
@@ -59,7 +62,7 @@ ComponentWithSetup({
 <button class="btn" bindtap="handleClick">{{count}}</button>
 ```
 
-实际的效果可以点击查看这个[代码片段](https://developers.weixin.qq.com/s/4HTQBMmc7azl)。
+实际的效果可以点击查看这个[代码片段](https://developers.weixin.qq.com/s/pLT8IMmI7Rzy)。
 
 
 # 理念
