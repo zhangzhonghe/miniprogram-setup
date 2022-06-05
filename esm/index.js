@@ -160,7 +160,7 @@ const runComponentSetup = (options) => {
                 });
             });
         }
-        let getData = options.setup(props);
+        let getData = options.setup(props, getContext(this));
         if (isFunction(getData)) {
             common.call(this);
         }
@@ -181,6 +181,39 @@ const runComponentSetup = (options) => {
             onDetached(() => emptyLifecycleStore(this));
         }
     };
+};
+const getContext = (instance) => {
+    const result = {}, keys = [
+        'animate',
+        'clearAnimation',
+        'createIntersectionObserver',
+        'createSelectorQuery',
+        'dataset',
+        'getOpenerEventChannel',
+        'getPageId',
+        'getRelationNodes',
+        'getTabBar',
+        'groupSetData',
+        'hasBehavior',
+        'id',
+        'is',
+        'selectAllComponents',
+        'selectComponent',
+        'selectOwnerComponent',
+        'setUpdatePerformanceListener',
+        'triggerEvent',
+    ];
+    for (const key of keys) {
+        Object.defineProperty(result, key, {
+            get() {
+                return instance[key];
+            },
+            set() {
+                console.warn(`context 是只读的，不能赋值`);
+            },
+        });
+    }
+    return result;
 };
 const registerLifecyle = (lifecycleStore, options) => {
     const lifetimes = (options.lifetimes = options.lifetimes || {});

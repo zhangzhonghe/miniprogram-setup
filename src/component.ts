@@ -16,8 +16,36 @@ type DataOption = WechatMiniprogram.Component.DataOption;
 type PropertyOption = WechatMiniprogram.Component.PropertyOption;
 type MethodOption = WechatMiniprogram.Component.MethodOption;
 
-interface Setup<T> {
-  (data: T): (() => Record<string, any>) | Promise<() => Record<string, any>>;
+interface Setup<
+  TData extends DataOption,
+  TProperty extends PropertyOption,
+  TMethod extends MethodOption,
+  P
+> {
+  (
+    data: P,
+    context: Pick<
+      WechatMiniprogram.Component.Instance<TData, TProperty, TMethod>,
+      | 'animate'
+      | 'clearAnimation'
+      | 'createIntersectionObserver'
+      | 'createSelectorQuery'
+      | 'dataset'
+      | 'getOpenerEventChannel'
+      | 'getPageId'
+      | 'getRelationNodes'
+      | 'getTabBar'
+      | 'groupSetData'
+      | 'hasBehavior'
+      | 'id'
+      | 'is'
+      | 'selectAllComponents'
+      | 'selectComponent'
+      | 'selectOwnerComponent'
+      | 'setUpdatePerformanceListener'
+      | 'triggerEvent'
+    >
+  ): (() => Record<string, any>) | Promise<() => Record<string, any>>;
 }
 
 type ComponentOptions<
@@ -25,7 +53,12 @@ type ComponentOptions<
   TProperty extends PropertyOption,
   TMethod extends MethodOption
 > = WechatMiniprogram.Component.Options<TData, TProperty, TMethod> & {
-  setup?: Setup<WechatMiniprogram.Component.PropertyOptionToData<TProperty>>;
+  setup?: Setup<
+    TData,
+    TProperty,
+    TMethod,
+    WechatMiniprogram.Component.PropertyOptionToData<TProperty>
+  >;
 };
 
 export const ComponentWithSetup = <
@@ -53,7 +86,9 @@ const runComponentSetup = <TData, TProperty extends PropertyOption, TMethod exte
    * 在组件 attached 时运行 setup，因为只有
    * 此时才能获取 properties 中的值。
    */
-  (options.lifetimes || (options.lifetimes = {})).attached = function (this: any) {
+  (options.lifetimes || (options.lifetimes = {})).attached = function (
+    this: WechatMiniprogram.Component.Instance<TData, TProperty, TMethod>
+  ) {
     const props = {} as TProperty;
 
     originLifetimes['attached']?.call(this);
@@ -87,7 +122,7 @@ const runComponentSetup = <TData, TProperty extends PropertyOption, TMethod exte
       });
     }
 
-    let getData = options.setup!(props as any);
+    let getData = options.setup!(props as any, getContext(this));
     if (isFunction(getData)) {
       common.call(this);
     } else if ((getData as any).then) {
@@ -96,7 +131,7 @@ const runComponentSetup = <TData, TProperty extends PropertyOption, TMethod exte
         common.call(this);
       });
     } else {
-      throw `setup 必须返回一个函数`;
+      if (__DEV__) throw `setup 必须返回一个函数`;
     }
 
     function common(this: any) {
@@ -108,6 +143,43 @@ const runComponentSetup = <TData, TProperty extends PropertyOption, TMethod exte
       onDetached(() => emptyLifecycleStore(this));
     }
   };
+};
+
+const getContext = (instance: any) => {
+  const result: any = {},
+    keys = [
+      'animate',
+      'clearAnimation',
+      'createIntersectionObserver',
+      'createSelectorQuery',
+      'dataset',
+      'getOpenerEventChannel',
+      'getPageId',
+      'getRelationNodes',
+      'getTabBar',
+      'groupSetData',
+      'hasBehavior',
+      'id',
+      'is',
+      'selectAllComponents',
+      'selectComponent',
+      'selectOwnerComponent',
+      'setUpdatePerformanceListener',
+      'triggerEvent',
+    ];
+
+  for (const key of keys) {
+    Object.defineProperty(result, key, {
+      get() {
+        return instance[key];
+      },
+      set() {
+        __DEV__ && console.warn(`context 是只读的，不能赋值`);
+      },
+    });
+  }
+
+  return result;
 };
 
 const registerLifecyle = <TData, TProperty extends PropertyOption, TMethod extends MethodOption>(
