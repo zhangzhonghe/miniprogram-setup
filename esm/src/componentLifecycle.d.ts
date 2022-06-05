@@ -1,9 +1,9 @@
 declare type Fn = (...args: any[]) => void;
 export interface LifecycleStore {
-    ready: Fn[];
-    moved: Fn[];
-    detached: Fn[];
-    error: Fn[];
+    ready: Map<any, Fn[]>;
+    moved: Map<any, Fn[]>;
+    detached: Map<any, Fn[]>;
+    error: Map<any, Fn[]>;
 }
 /**
  * 在组件在视图层布局完成后执行
@@ -30,6 +30,6 @@ export declare const onDetached: (handler: () => void) => void;
  */
 export declare const onError: (handler: (err: Error) => void) => void;
 export declare const initLifecycleStore: () => LifecycleStore;
-export declare const emptyLifecycleStore: () => void;
+export declare const emptyLifecycleStore: (instance: any) => void;
 export declare const registerComponentLifecyle: (type: keyof LifecycleStore, handler: (...args: any[]) => void) => void;
 export {};

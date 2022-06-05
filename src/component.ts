@@ -3,9 +3,12 @@ import {
   initLifecycleStore,
   LifecycleStore,
   onDetached,
-  registerComponentLifecyle,
+  onError,
+  onMoved,
+  onReady,
 } from './componentLifecycle';
-import { forEachObj, isFunction, NOOP } from './shared';
+import { setCurrentInstance } from './instance';
+import { forEachObj, isFunction } from './shared';
 import { resetUpdateData, setUpdateData } from './updateData';
 import { useRefresh } from './useRefresh';
 
@@ -41,19 +44,23 @@ export const ComponentWithSetup = <
 const runComponentSetup = <TData, TProperty extends PropertyOption, TMethod extends MethodOption>(
   options: ComponentOptions<TData, TProperty, TMethod>
 ) => {
-  const originAttached = options.lifetimes?.['attached'] || options.attached,
-    lifecycleStore = initLifecycleStore();
+  const lifecycleStore = initLifecycleStore(),
+    originLifetimes = getOldLifetimes(options);
 
   registerLifecyle(lifecycleStore, options);
 
   /**
-   * 在组件的 attached 时运行 setup
+   * 在组件 attached 时运行 setup，因为只有
+   * 此时才能获取 properties 中的值。
    */
   (options.lifetimes || (options.lifetimes = {})).attached = function (this: any) {
     const props = {} as TProperty;
 
-    originAttached?.call(this);
+    originLifetimes['attached']?.call(this);
+    setCurrentInstance(this);
+    registerOldLifecycle(originLifetimes);
     setUpdateData(() => {
+      // 如果不是 function 说明是一个 Promise
       if (!isFunction(getData)) return;
       const data = (getData as any)();
       forEachObj(data, (v, key) => {
@@ -98,7 +105,7 @@ const runComponentSetup = <TData, TProperty extends PropertyOption, TMethod exte
 
       // 组件销毁时清空已注册的生命周期函数
       // 注意：需放在 setup 之后，不然其它注册的 detached 函数不会执行
-      onDetached(emptyLifecycleStore);
+      onDetached(() => emptyLifecycleStore(this));
     }
   };
 };
@@ -108,15 +115,33 @@ const registerLifecyle = <TData, TProperty extends PropertyOption, TMethod exten
   options: ComponentOptions<TData, TProperty, TMethod>
 ) => {
   const lifetimes = (options.lifetimes = options.lifetimes || {});
-
-  forEachObj(lifetimes, (handler, key) => {
-    registerComponentLifecyle(key as any, handler);
-  });
-  forEachObj(lifecycleStore, (handlerSet: any[], key) => {
-    lifetimes[key] = function (...args: any[]) {
-      handlerSet.forEach((handler) => handler(...args));
+  forEachObj(lifecycleStore, (handlerSet: Map<any, any[]>, key) => {
+    lifetimes[key] = function (this: any, ...args: any[]) {
+      // this 指向组件实例
+      handlerSet.get(this)?.forEach((handler) => handler(...args));
     };
   });
+};
+
+const registerOldLifecycle = (lifetimes: Record<string, any>) => {
+  forEachObj(lifetimes, (handler, key) => {
+    if (key === 'attached') return;
+    key === 'ready' && onReady(handler);
+    key === 'moved' && onMoved(handler);
+    key === 'detached' && onDetached(handler);
+    key === 'error' && onError(handler);
+  });
+};
+
+const getOldLifetimes = (options: any) => {
+  const lifetimes = (options.lifetimes = options.lifetimes || {}),
+    result = {} as any;
+
+  forEachObj(lifetimes, (handler, key) => {
+    result[key] = handler;
+  });
+
+  return result;
 };
 
 const registerDataAndMethod = (componentInstance: any, dataAndMethod: Record<string, any>) => {

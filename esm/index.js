@@ -46,6 +46,10 @@ if (!originThen.$$isRewritten) {
   Promise.prototype.then.$$isRewritten = true;
 }
 
+let currentInstance = null;
+const getCurrentInstance = () => currentInstance;
+const setCurrentInstance = (instance) => (currentInstance = instance);
+
 const isFunction = (v) => typeof v === 'function';
 const forEachObj = (obj, handler) => {
     Object.keys(obj).forEach((key) => {
@@ -79,22 +83,30 @@ const onDetached = (handler) => registerComponentLifecyle('detached', handler);
  */
 const onError = (handler) => registerComponentLifecyle('error', handler);
 const initLifecycleStore = () => (lifecycleStore = {
-    ready: [],
-    moved: [],
-    detached: [],
-    error: [],
+    ready: new Map(),
+    moved: new Map(),
+    detached: new Map(),
+    error: new Map(),
 });
-const emptyLifecycleStore = () => {
+const emptyLifecycleStore = (instance) => {
     if (lifecycleStore) {
-        forEachObj(lifecycleStore, (list) => {
-            list.length = 0;
+        forEachObj(lifecycleStore, (map) => {
+            map.delete(instance);
         });
     }
 };
 const registerComponentLifecyle = (type, handler) => {
-    var _a;
-    if (lifecycleStore) {
-        (_a = lifecycleStore[type]) === null || _a === void 0 ? void 0 : _a.push(handler);
+    const map = lifecycleStore === null || lifecycleStore === void 0 ? void 0 : lifecycleStore[type];
+    if (map) {
+        let list;
+        if ((list = map.get(getCurrentInstance()))) {
+            list.push(handler);
+        }
+        else {
+            list = [];
+            map.set(getCurrentInstance(), list);
+            list.push(handler);
+        }
     }
 };
 
@@ -105,16 +117,20 @@ const ComponentWithSetup = (options) => {
     return Component(options);
 };
 const runComponentSetup = (options) => {
-    var _a;
-    const originAttached = ((_a = options.lifetimes) === null || _a === void 0 ? void 0 : _a['attached']) || options.attached, lifecycleStore = initLifecycleStore();
+    const lifecycleStore = initLifecycleStore(), originLifetimes = getOldLifetimes(options);
     registerLifecyle(lifecycleStore, options);
     /**
-     * 在组件的 attached 时运行 setup
+     * 在组件 attached 时运行 setup，因为只有
+     * 此时才能获取 properties 中的值。
      */
     (options.lifetimes || (options.lifetimes = {})).attached = function () {
+        var _a;
         const props = {};
-        originAttached === null || originAttached === void 0 ? void 0 : originAttached.call(this);
+        (_a = originLifetimes['attached']) === null || _a === void 0 ? void 0 : _a.call(this);
+        setCurrentInstance(this);
+        registerOldLifecycle(originLifetimes);
         setUpdateData(() => {
+            // 如果不是 function 说明是一个 Promise
             if (!isFunction(getData))
                 return;
             const data = getData();
@@ -158,20 +174,36 @@ const runComponentSetup = (options) => {
             resetUpdateData();
             // 组件销毁时清空已注册的生命周期函数
             // 注意：需放在 setup 之后，不然其它注册的 detached 函数不会执行
-            onDetached(emptyLifecycleStore);
+            onDetached(() => emptyLifecycleStore(this));
         }
     };
 };
 const registerLifecyle = (lifecycleStore, options) => {
     const lifetimes = (options.lifetimes = options.lifetimes || {});
-    forEachObj(lifetimes, (handler, key) => {
-        registerComponentLifecyle(key, handler);
-    });
     forEachObj(lifecycleStore, (handlerSet, key) => {
         lifetimes[key] = function (...args) {
-            handlerSet.forEach((handler) => handler(...args));
+            var _a;
+            // this 指向组件实例
+            (_a = handlerSet.get(this)) === null || _a === void 0 ? void 0 : _a.forEach((handler) => handler(...args));
         };
     });
+};
+const registerOldLifecycle = (lifetimes) => {
+    forEachObj(lifetimes, (handler, key) => {
+        if (key === 'attached')
+            return;
+        key === 'ready' && onReady(handler);
+        key === 'moved' && onMoved(handler);
+        key === 'detached' && onDetached(handler);
+        key === 'error' && onError(handler);
+    });
+};
+const getOldLifetimes = (options) => {
+    const lifetimes = (options.lifetimes = options.lifetimes || {}), result = {};
+    forEachObj(lifetimes, (handler, key) => {
+        result[key] = handler;
+    });
+    return result;
 };
 const registerDataAndMethod = (componentInstance, dataAndMethod) => {
     const data = {};

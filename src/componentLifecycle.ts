@@ -1,12 +1,13 @@
+import { getCurrentInstance } from './instance';
 import { forEachObj } from './shared';
 
 type Fn = (...args: any[]) => void;
 
 export interface LifecycleStore {
-  ready: Fn[];
-  moved: Fn[];
-  detached: Fn[];
-  error: Fn[];
+  ready: Map<any, Fn[]>;
+  moved: Map<any, Fn[]>;
+  detached: Map<any, Fn[]>;
+  error: Map<any, Fn[]>;
 }
 
 let lifecycleStore: LifecycleStore | null = null;
@@ -42,16 +43,16 @@ export const onError = (handler: (err: Error) => void) =>
 
 export const initLifecycleStore = (): LifecycleStore =>
   (lifecycleStore = {
-    ready: [],
-    moved: [],
-    detached: [],
-    error: [],
+    ready: new Map(),
+    moved: new Map(),
+    detached: new Map(),
+    error: new Map(),
   });
 
-export const emptyLifecycleStore = () => {
+export const emptyLifecycleStore = (instance: any) => {
   if (lifecycleStore) {
-    forEachObj(lifecycleStore, (list: any[]) => {
-      list.length = 0;
+    forEachObj(lifecycleStore, (map: Map<any, any>) => {
+      map.delete(instance);
     });
   }
 };
@@ -60,7 +61,15 @@ export const registerComponentLifecyle = (
   type: keyof LifecycleStore,
   handler: (...args: any[]) => void
 ) => {
-  if (lifecycleStore) {
-    lifecycleStore[type]?.push(handler);
+  const map = lifecycleStore?.[type];
+  if (map) {
+    let list: any;
+    if ((list = map.get(getCurrentInstance()))) {
+      list.push(handler);
+    } else {
+      list = [];
+      map.set(getCurrentInstance(), list);
+      list.push(handler);
+    }
   }
 };
