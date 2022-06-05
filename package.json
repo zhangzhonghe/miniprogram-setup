@@ -1,6 +1,6 @@
 {
   "name": "miniprogram-setup",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "使用原生语法，在仅增加 2 个 API 的情况下支持类似于 Vue3 的组合式写法。",
   "main": "esm/index.js",
   "types": "esm/index.d.ts",
