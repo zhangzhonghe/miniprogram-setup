@@ -1,7 +1,9 @@
+import './meta';
+
 export { ComponentWithSetup } from './component';
 // export { PageWithSetup } from './page';
-export { useRefresh } from './useRefresh';
-export { onAttached, onDetached, onReady, onMoved, onError } from './componentLifecycle';
+// export { useRefresh } from './useRefresh';
+export { onDetached, onReady, onMoved, onError } from './componentLifecycle';
 // export {
 //   onPageLoad,
 //   onPageShow,

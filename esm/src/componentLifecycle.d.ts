@@ -1,17 +1,10 @@
 declare type Fn = (...args: any[]) => void;
 export interface LifecycleStore {
-    attached: Fn[];
     ready: Fn[];
     moved: Fn[];
     detached: Fn[];
     error: Fn[];
 }
-/**
- * 在组件实例进入页面节点树时执行
- *
- * 最低基础库版本：[`2.2.3`](https://developers.weixin.qq.com/miniprogram/dev/framework/compatibility.html)
- */
-export declare const onAttached: (handler: () => void) => void;
 /**
  * 在组件在视图层布局完成后执行
  *
@@ -37,5 +30,6 @@ export declare const onDetached: (handler: () => void) => void;
  */
 export declare const onError: (handler: (err: Error) => void) => void;
 export declare const initLifecycleStore: () => LifecycleStore;
+export declare const emptyLifecycleStore: () => void;
 export declare const registerComponentLifecyle: (type: keyof LifecycleStore, handler: (...args: any[]) => void) => void;
 export {};

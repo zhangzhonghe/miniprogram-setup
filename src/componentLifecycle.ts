@@ -1,7 +1,8 @@
+import { forEachObj } from './shared';
+
 type Fn = (...args: any[]) => void;
 
 export interface LifecycleStore {
-  attached: Fn[];
   ready: Fn[];
   moved: Fn[];
   detached: Fn[];
@@ -9,13 +10,6 @@ export interface LifecycleStore {
 }
 
 let lifecycleStore: LifecycleStore | null = null;
-
-/**
- * 在组件实例进入页面节点树时执行
- *
- * 最低基础库版本：[`2.2.3`](https://developers.weixin.qq.com/miniprogram/dev/framework/compatibility.html)
- */
-export const onAttached = (handler: () => void) => registerComponentLifecyle('attached', handler);
 
 /**
  * 在组件在视图层布局完成后执行
@@ -48,18 +42,25 @@ export const onError = (handler: (err: Error) => void) =>
 
 export const initLifecycleStore = (): LifecycleStore =>
   (lifecycleStore = {
-    attached: [],
     ready: [],
     moved: [],
     detached: [],
     error: [],
   });
 
+export const emptyLifecycleStore = () => {
+  if (lifecycleStore) {
+    forEachObj(lifecycleStore, (list: any[]) => {
+      list.length = 0;
+    });
+  }
+};
+
 export const registerComponentLifecyle = (
   type: keyof LifecycleStore,
   handler: (...args: any[]) => void
 ) => {
   if (lifecycleStore) {
-    lifecycleStore[type].push(handler);
+    lifecycleStore[type]?.push(handler);
   }
 };

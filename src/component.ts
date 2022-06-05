@@ -1,19 +1,20 @@
 import {
+  emptyLifecycleStore,
   initLifecycleStore,
   LifecycleStore,
   onDetached,
   registerComponentLifecyle,
 } from './componentLifecycle';
 import { forEachObj, isFunction, NOOP } from './shared';
-import { setUpdateData } from './updateData';
-import { nextTick } from './useRefresh';
+import { resetUpdateData, setUpdateData } from './updateData';
+import { useRefresh } from './useRefresh';
 
 type DataOption = WechatMiniprogram.Component.DataOption;
 type PropertyOption = WechatMiniprogram.Component.PropertyOption;
 type MethodOption = WechatMiniprogram.Component.MethodOption;
 
 interface Setup<T> {
-  (data: T): () => Record<string, any>;
+  (data: T): (() => Record<string, any>) | Promise<() => Record<string, any>>;
 }
 
 type ComponentOptions<
@@ -40,16 +41,21 @@ export const ComponentWithSetup = <
 const runComponentSetup = <TData, TProperty extends PropertyOption, TMethod extends MethodOption>(
   options: ComponentOptions<TData, TProperty, TMethod>
 ) => {
-  const lifecycleStore = initLifecycleStore(),
-    originCreated = options.lifetimes?.['created'] || options.created,
-    props = {} as TProperty;
+  const originAttached = options.lifetimes?.['attached'] || options.attached,
+    lifecycleStore = initLifecycleStore();
 
   registerLifecyle(lifecycleStore, options);
 
-  (options.lifetimes || (options.lifetimes = {})).created = function (this: any) {
-    originCreated?.call(this);
+  /**
+   * 在组件的 attached 时运行 setup
+   */
+  (options.lifetimes || (options.lifetimes = {})).attached = function (this: any) {
+    const props = {} as TProperty;
+
+    originAttached?.call(this);
     setUpdateData(() => {
-      const data = getData();
+      if (!isFunction(getData)) return;
+      const data = (getData as any)();
       forEachObj(data, (v, key) => {
         if (isFunction(v)) {
           delete data[key];
@@ -73,16 +79,27 @@ const runComponentSetup = <TData, TProperty extends PropertyOption, TMethod exte
         });
       });
     }
-    const getData = options.setup!(props as any);
-    registerDataAndMethod(this, getData());
 
-    // 需放在 setup 之后，不然其它注册的 detached 函数不会执行
-    onDetached(() => {
-      // 组件销毁时清空已注册的生命周期函数
-      forEachObj(lifecycleStore, (list: any[]) => {
-        list.length = 0;
+    let getData = options.setup!(props as any);
+    if (isFunction(getData)) {
+      common.call(this);
+    } else if ((getData as any).then) {
+      (getData as any).then((res: any) => {
+        getData = res;
+        common.call(this);
       });
-    });
+    } else {
+      throw `setup 必须返回一个函数`;
+    }
+
+    function common(this: any) {
+      registerDataAndMethod(this, (getData as any)());
+      resetUpdateData();
+
+      // 组件销毁时清空已注册的生命周期函数
+      // 注意：需放在 setup 之后，不然其它注册的 detached 函数不会执行
+      onDetached(emptyLifecycleStore);
+    }
   };
 };
 
@@ -106,10 +123,12 @@ const registerDataAndMethod = (componentInstance: any, dataAndMethod: Record<str
   const data: any = {};
   forEachObj(dataAndMethod, (v, key) => {
     if (isFunction(v)) {
-      componentInstance[key] = v;
+      // 用户不需手动使用 useRefresh，
+      // 终极目标是用户可以不知道 useRefresh 的存在。
+      componentInstance[key] = useRefresh(v);
     } else {
       data[key] = v;
     }
   });
-  nextTick(() => componentInstance.setData(data));
+  componentInstance.setData(data);
 };
