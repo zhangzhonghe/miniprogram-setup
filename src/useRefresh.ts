@@ -1,14 +1,19 @@
-import { getUpdateData, setUpdateData } from './updateData';
+import { getUpdateData, resetUpdateData, setUpdateData } from './updateData';
 
 export const refresh = (updateData: (() => void) & { isRefreshing?: boolean }) => {
   if (updateData.isRefreshing) {
     return;
   }
   updateData.isRefreshing = true;
+
+  // 先清空 updateData 再调用是因为要
+  // 防止 nextTick 再次触发一次更新。
+  resetUpdateData();
   nextTick(() => {
     updateData();
     updateData.isRefreshing = false;
   });
+  setUpdateData(updateData);
 };
 
 export const useRefresh = (handler: (...params: any) => any) => {

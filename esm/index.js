@@ -8,10 +8,14 @@ const refresh = (updateData) => {
         return;
     }
     updateData.isRefreshing = true;
+    // 先清空 updateData 再调用是因为要
+    // 防止 nextTick 再次触发一次更新。
+    resetUpdateData();
     nextTick(() => {
         updateData();
         updateData.isRefreshing = false;
     });
+    setUpdateData(updateData);
 };
 const useRefresh = (handler) => {
     const updateData = getUpdateData();
