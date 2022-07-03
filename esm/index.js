@@ -18,6 +18,9 @@ const refresh = (updateData) => {
     setUpdateData(updateData);
 };
 const useRefresh = (handler) => {
+    if (!handler) {
+        return;
+    }
     const updateData = getUpdateData();
     return function (...p) {
         if (updateData) {
@@ -36,15 +39,18 @@ const nextTick = (handler) => {
 };
 
 const originThen = Promise.prototype.then;
+const originCatch = Promise.prototype.catch;
+const originFinally = Promise.prototype.finally;
 
 if (!originThen.$$isRewritten) {
   Promise.prototype.then = function (onFulfilled, onRejected) {
-    function proxy(...args) {
-      if (onFulfilled) {
-        return onFulfilled.call(this, ...args);
-      }
-    }
-    return originThen.call(this, useRefresh(proxy), onRejected);
+    return originThen.call(this, useRefresh(onFulfilled), useRefresh(onRejected));
+  };
+  Promise.prototype.catch = function (onRejected) {
+    return originCatch.call(this, useRefresh(onRejected));
+  };
+  Promise.prototype.finally = function (onFinally) {
+    return originFinally.call(this, useRefresh(onFinally));
   };
 
   Promise.prototype.then.$$isRewritten = true;
@@ -104,12 +110,12 @@ const registerComponentLifecyle = (type, handler) => {
     if (map) {
         let list;
         if ((list = map.get(getCurrentInstance()))) {
-            list.push(handler);
+            list.push(useRefresh(handler));
         }
         else {
             list = [];
             map.set(getCurrentInstance(), list);
-            list.push(handler);
+            list.push(useRefresh(handler));
         }
     }
 };
