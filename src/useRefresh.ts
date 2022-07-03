@@ -17,6 +17,10 @@ export const refresh = (updateData: (() => void) & { isRefreshing?: boolean }) =
 };
 
 export const useRefresh = (handler: (...params: any) => any) => {
+  if (!handler) {
+    return;
+  }
+
   const updateData = getUpdateData();
   return function (this: any, ...p: any) {
     if (updateData) {

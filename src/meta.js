@@ -4,12 +4,7 @@ const originThen = Promise.prototype.then;
 
 if (!originThen.$$isRewritten) {
   Promise.prototype.then = function (onFulfilled, onRejected) {
-    function proxy(...args) {
-      if (onFulfilled) {
-        return onFulfilled.call(this, ...args);
-      }
-    }
-    return originThen.call(this, useRefresh(proxy), onRejected);
+    return originThen.call(this, useRefresh(onFulfilled), useRefresh(onRejected));
   };
 
   Promise.prototype.then.$$isRewritten = true;
