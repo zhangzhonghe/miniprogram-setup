@@ -1,5 +1,6 @@
 import { getCurrentInstance } from './instance';
 import { forEachObj } from './shared';
+import { useRefresh } from './useRefresh';
 
 type Fn = (...args: any[]) => void;
 
@@ -65,11 +66,11 @@ export const registerComponentLifecyle = (
   if (map) {
     let list: any;
     if ((list = map.get(getCurrentInstance()))) {
-      list.push(handler);
+      list.push(useRefresh(handler));
     } else {
       list = [];
       map.set(getCurrentInstance(), list);
-      list.push(handler);
+      list.push(useRefresh(handler));
     }
   }
 };
