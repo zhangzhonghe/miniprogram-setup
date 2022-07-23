@@ -119,7 +119,7 @@ const runComponentSetup = <TData, TProperty extends PropertyOption, TMethod exte
           delete data[key];
         }
       });
-      // this 指向组件示例
+      // this 指向组件实例
       this.setData(data);
     });
 

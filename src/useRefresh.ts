@@ -22,7 +22,7 @@ export const useRefresh = (handler: (...params: any) => any) => {
   }
 
   const updateData = getUpdateData();
-  return function (this: any, ...p: any) {
+  return function (this: any, ...args: any) {
     if (updateData) {
       refresh(updateData);
       // 当使用 await 的时候，其之后的代码
@@ -32,7 +32,7 @@ export const useRefresh = (handler: (...params: any) => any) => {
     }
 
     // 确保 this 指向不变
-    return handler.call(this, ...p);
+    return handler.call(this, ...args);
   };
 };
 
