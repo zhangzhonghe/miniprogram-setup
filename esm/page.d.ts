@@ -1,4 +1,5 @@
 /// <reference types="miniprogram-api-typings" />
+/// <reference types="miniprogram-api-typings" />
 declare type DataOption = WechatMiniprogram.Component.DataOption;
 declare type CustomOption = WechatMiniprogram.Page.CustomOption;
 interface Setup {

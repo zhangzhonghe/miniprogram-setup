@@ -134,7 +134,7 @@ const runComponentSetup = <TData, TProperty extends PropertyOption, TMethod exte
           },
           set() {
             if (__DEV__) {
-              console.warn(`props 是只读的，无法修改 key 为 ${key} 的值。`);
+              console.warn(`props 是只读的，无法修改 key 为 ${key as string} 的值。`);
             }
           },
         });
