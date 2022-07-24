@@ -8,5 +8,5 @@ module.exports = {
   snapshotSerializers: ['miniprogram-simulate/jest-snapshot-plugin'],
   watchPathIgnorePatterns: ['/node_modules/', '/esm/', '/.git/'],
   rootDir: __dirname,
-  testMatch: ['<rootDir>/__tests__/**/*test.[jt]s'],
+  testMatch: ['<rootDir>/__tests__/**/*.test.[jt]s'],
 };
