@@ -1,6 +1,9 @@
 export const NOOP = () => {};
 
-export const isFunction = (v: any) => typeof v === 'function';
+export const isFunction = (v: unknown) => typeof v === 'function';
+
+export const isObject = (val: unknown): val is Record<any, any> =>
+  val !== null && typeof val === 'object';
 
 export const forEachObj = <T extends Record<string, any>>(
   obj: T,
