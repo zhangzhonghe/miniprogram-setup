@@ -62,7 +62,7 @@ ComponentWithSetup({
 <button class="btn" bindtap="handleClick">{{count}}</button>
 ```
 
-实际的效果可以点击查看这个[代码片段](https://developers.weixin.qq.com/s/pLT8IMmI7Rzy)。
+实际的效果可以点击查看这个[代码片段](https://developers.weixin.qq.com/s/Fd7UB1mh7XBj)。
 
 
 # 理念
