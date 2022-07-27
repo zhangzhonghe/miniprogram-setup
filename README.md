@@ -66,9 +66,9 @@ ComponentWithSetup({
 
 
 # 理念
-目前仅有 1 个 新增的 API **useRefresh**，且大部分情况下是不需要使用的（如上面的小 Demo），也就是说大部分情况下是不需要使用任何 API 的！
+目前，只需使用原生的 Javascript 且不需要 Vue 那样复杂的**响应式 API** ，就在小程序中实现了**响应性**，相比于 Vue，上手的门槛要小很多。
 
-相比于动辄几十个 API，这个库的上手门槛要简单许多，**简单**就是我的理念。😂
+**简单**就是我的理念。😂
 
 如果你对这个项目感兴趣欢迎提 [Issue](https://github.com/zhangzhonghe/miniprogram-setup/issues) ～
 
