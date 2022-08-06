@@ -23,6 +23,7 @@ interface Setup<
   P
 > {
   (
+    this: never,
     data: P,
     context: Pick<
       WechatMiniprogram.Component.Instance<TData, TProperty, TMethod>,
@@ -188,17 +189,10 @@ const getContext = (instance: any) => {
     ];
 
   for (const key of keys) {
-    Object.defineProperty(result, key, {
-      get() {
-        return instance[key];
-      },
-      set() {
-        __DEV__ && console.warn(`context 是只读的，不能赋值`);
-      },
-    });
+    result[key] = instance[key];
   }
 
-  return result;
+  return Object.freeze(result);
 };
 
 const getPropKey = (options: any) => {
