@@ -23,7 +23,7 @@ interface Setup<
   P
 > {
   (
-    this: never,
+    this: void,
     data: P,
     context: Pick<
       WechatMiniprogram.Component.Instance<TData, TProperty, TMethod>,
@@ -81,7 +81,9 @@ const runComponentSetup = <TData, TProperty extends PropertyOption, TMethod exte
   const lifecycleStore = initLifecycleStore(),
     originLifetimes = getOldLifetimes(options),
     propsKeys = getPropKey(options),
-    oldObserver = options.observers?.[propsKeys];
+    oldObserver = options.observers?.[propsKeys],
+    // 单独抽出来是为了避免通过 this 访问 options
+    setup = options.setup;
 
   registerLifecyle(lifecycleStore, options);
 
@@ -142,7 +144,7 @@ const runComponentSetup = <TData, TProperty extends PropertyOption, TMethod exte
       });
     }
 
-    let getData = options.setup!(props as any, getContext(this));
+    let getData = setup!(props as any, getContext(this));
     if (isFunction(getData)) {
       common.call(this);
     } else if ((getData as any).then) {
