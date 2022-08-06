@@ -1,4 +1,4 @@
-import { nextTick } from '../src/useRefresh';
+import { nextTick } from '../src/useAutoUpdate';
 import { getComponent } from './utils/getCom';
 
 describe('异步的生命周期函数', () => {

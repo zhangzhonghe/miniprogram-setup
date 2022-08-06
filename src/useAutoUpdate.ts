@@ -16,7 +16,7 @@ export const refresh = (updateData: (() => void) & { isRefreshing?: boolean }) =
   setUpdateData(updateData);
 };
 
-export const useRefresh = (handler?: ((...params: any) => any) | null) => {
+export const useAutoUpdate = (handler?: ((...params: any) => any) | null) => {
   if (!handler) {
     return;
   }

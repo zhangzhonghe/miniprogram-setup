@@ -1,4 +1,4 @@
-import { nextTick } from '../src/useRefresh';
+import { nextTick } from '../src/useAutoUpdate';
 import { getComponent } from './utils/getCom';
 
 describe('状态更改时，自动更新视图', () => {

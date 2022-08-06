@@ -1,5 +1,5 @@
 import { ComponentWithSetup, onDetached, onError, onMoved, onReady } from '../../../src';
-import { nextTick } from '../../../src/useRefresh';
+import { nextTick } from '../../../src/useAutoUpdate';
 
 ComponentWithSetup({
   setup() {

@@ -10,7 +10,7 @@ import {
 import { setCurrentInstance } from './instance';
 import { forEachObj, isFunction } from './shared';
 import { getUpdateData, resetUpdateData, setUpdateData } from './updateData';
-import { useRefresh } from './useRefresh';
+import { useAutoUpdate } from './useAutoUpdate';
 
 type DataOption = WechatMiniprogram.Component.DataOption;
 type PropertyOption = WechatMiniprogram.Component.PropertyOption;
@@ -247,7 +247,7 @@ const registerDataAndMethod = (componentInstance: any, dataAndMethod: Record<str
     if (isFunction(v)) {
       // 用户不需手动使用 useRefresh，
       // 终极目标是用户可以不知道 useRefresh 的存在。
-      componentInstance[key] = useRefresh(v);
+      componentInstance[key] = useAutoUpdate(v);
     } else {
       data[key] = v;
     }
