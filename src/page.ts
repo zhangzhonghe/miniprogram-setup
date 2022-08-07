@@ -1,5 +1,3 @@
-import { forEachObj } from './shared';
-
 type DataOption = WechatMiniprogram.Component.DataOption;
 type CustomOption = WechatMiniprogram.Page.CustomOption;
 
@@ -25,7 +23,6 @@ interface Setup<TData extends DataOption, TCustom extends CustomOption> {
       | 'selectComponent'
       | 'selectOwnerComponent'
       | 'setUpdatePerformanceListener'
-      | 'triggerEvent'
     >
   ): () => Record<string, any> | Promise<Record<string, any>>;
 }
@@ -63,7 +60,6 @@ const getContext = (instance: any) => {
       'selectComponent',
       'selectOwnerComponent',
       'setUpdatePerformanceListener',
-      'triggerEvent',
     ];
 
   for (const key of keys) {

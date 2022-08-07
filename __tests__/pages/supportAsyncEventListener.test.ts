@@ -1,8 +1,8 @@
-import { getComponent } from './utils/getCom';
+import { getPage } from '../utils/getPage';
 
-describe('异步的事件监听器', () => {
+describe('Page: 异步的事件监听器', () => {
   it('应该正常调用已注册的异步事件监听器', async () => {
-    const com = getComponent('AsyncEventListener');
+    const com = getPage('AsyncEventListener');
     const container = document.createElement('div');
     com.attach(container);
     expect(com.dom!.innerHTML).toBe('<wx-view>0</wx-view>');

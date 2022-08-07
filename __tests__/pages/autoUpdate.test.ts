@@ -1,8 +1,8 @@
-import { nextTick } from '../src/useAutoUpdate';
-import { getComponent } from './utils/getCom';
+import { nextTick } from '../../src/useAutoUpdate';
+import { getPage } from '../utils/getPage';
 
-describe('状态更改时，自动更新视图', () => {
-  const com = getComponent('Counter');
+describe('Page: 状态更改时，自动更新视图', () => {
+  const com = getPage('Counter');
   const container = document.createElement('div');
   com.attach(container);
 

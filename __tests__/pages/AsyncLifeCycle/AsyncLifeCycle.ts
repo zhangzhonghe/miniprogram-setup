@@ -1,6 +1,7 @@
-import { ComponentWithSetup, onDetached, onError, onMoved, onReady } from '../../../src';
+import { PageWithSetupForTesting } from '../../utils/convertingPageToComponent';
+import { onDetached, onError, onMoved, onReady } from '../../../src';
 
-ComponentWithSetup({
+PageWithSetupForTesting({
   setup() {
     let lifecycleName = 'attached';
 
