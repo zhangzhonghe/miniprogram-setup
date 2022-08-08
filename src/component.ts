@@ -147,7 +147,7 @@ const runComponentSetup = <TData, TProperty extends PropertyOption, TMethod exte
     let getData = setup!(props as any, getContext(this));
     if (isFunction(getData)) {
       common.call(this);
-    } else if ((getData as any).then) {
+    } else if (getData instanceof Promise) {
       (getData as any).then((res: any) => {
         getData = res;
         common.call(this);
@@ -157,7 +157,7 @@ const runComponentSetup = <TData, TProperty extends PropertyOption, TMethod exte
     }
 
     function common(this: any) {
-      registerDataAndMethod(this, (getData as any)());
+      registerDatasAndMethods(this, (getData as any)());
       resetUpdateData();
 
       // 组件销毁时清空已注册的生命周期函数
@@ -237,12 +237,12 @@ const getOldLifetimes = (options: any) => {
   return result;
 };
 
-const registerDataAndMethod = (componentInstance: any, dataAndMethod: Record<string, any>) => {
+const registerDatasAndMethods = (componentInstance: any, dataAndMethod: Record<string, any>) => {
   const data: any = {};
   forEachObj(dataAndMethod, (v, key) => {
     if (isFunction(v)) {
-      // 用户不需手动使用 useRefresh，
-      // 终极目标是用户可以不知道 useRefresh 的存在。
+      // 用户不需手动使用 useAutoUpdate，
+      // 终极目标是用户可以不知道 useAutoUpdate 的存在。
       componentInstance[key] = useAutoUpdate(v);
     } else {
       data[key] = v;

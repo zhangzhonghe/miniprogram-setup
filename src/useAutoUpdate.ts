@@ -1,4 +1,3 @@
-import { getCurrentInstance, setCurrentInstance } from './instance';
 import { getUpdateData, resetUpdateData, setUpdateData } from './updateData';
 
 export const refresh = (updateData: (() => void) & { isRefreshing?: boolean }) => {
@@ -23,7 +22,6 @@ export const useAutoUpdate = (handler?: ((...params: any) => any) | null) => {
   }
 
   const updateData = getUpdateData();
-  const instance = getCurrentInstance();
   return function (this: any, ...args: any) {
     if (updateData) {
       refresh(updateData);
@@ -31,9 +29,6 @@ export const useAutoUpdate = (handler?: ((...params: any) => any) | null) => {
       // 运行的时候 updateData 的值可能已经
       // 被改变，所以在此重新设置回相应的值。
       setUpdateData(updateData);
-
-      // 同上
-      setCurrentInstance(instance);
     }
 
     // 确保 this 指向不变
