@@ -42,7 +42,8 @@ export const onDetached = (handler: () => void) => registerComponentLifecyle('de
 export const onError = (handler: (err: Error) => void) =>
   registerComponentLifecyle('error', handler);
 
-export const initLifecycleStore = (): LifecycleStore =>
+export const getLifecycleStore = (): LifecycleStore =>
+  lifecycleStore ||
   (lifecycleStore = {
     ready: new Map(),
     moved: new Map(),

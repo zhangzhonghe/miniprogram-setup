@@ -1,6 +1,6 @@
 import {
   emptyLifecycleStore,
-  initLifecycleStore,
+  getLifecycleStore,
   LifecycleStore,
   onDetached,
   onError,
@@ -78,7 +78,7 @@ export const ComponentWithSetup = <
 const runComponentSetup = <TData, TProperty extends PropertyOption, TMethod extends MethodOption>(
   options: ComponentOptions<TData, TProperty, TMethod>
 ) => {
-  const lifecycleStore = initLifecycleStore(),
+  const lifecycleStore = getLifecycleStore(),
     originLifetimes = getOldLifetimes(options),
     propsKeys = getPropKey(options),
     oldObserver = options.observers?.[propsKeys],
