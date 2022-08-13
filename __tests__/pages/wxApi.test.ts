@@ -6,6 +6,8 @@ describe('Page: wxApi', () => {
     const com = getPage('WxAPI');
     const container = document.createElement('div');
     com.attach(container);
+    com.instance.onLoad();
+
     expect(com.dom!.innerHTML).toBe('<wx-view>pending</wx-view>');
 
     // 模拟接口调用成功

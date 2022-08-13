@@ -1,21 +1,50 @@
+import {
+  onHide,
+  onPageScroll,
+  onPullDownRefresh,
+  onReachBottom,
+  onReady,
+  onResize,
+  onSaveExitState,
+  onShow,
+  onTabItemTap,
+  onUnload,
+} from '../../../src/pageLifecycle';
 import { PageWithSetupForTesting } from '../../utils/convertingPageToComponent';
-import { onDetached, onError, onMoved, onReady } from '../../../src';
 
 PageWithSetupForTesting({
   setup() {
-    let lifecycleName = 'attached';
+    let lifecycleName = 'onLoad';
 
+    onShow(() => {
+      lifecycleName = 'onShow';
+    });
+    onHide(() => {
+      lifecycleName = 'onHide';
+    });
+    onReachBottom(() => {
+      lifecycleName = 'onReachBottom';
+    });
     onReady(() => {
-      lifecycleName = 'ready';
+      lifecycleName = 'onReady';
     });
-    onMoved(() => {
-      lifecycleName = 'moved';
+    onPageScroll(() => {
+      lifecycleName = 'onPageScroll';
     });
-    onDetached(() => {
-      lifecycleName = 'detached';
+    onUnload(() => {
+      lifecycleName = 'onUnload';
     });
-    onError(() => {
-      lifecycleName = 'error';
+    onTabItemTap(() => {
+      lifecycleName = 'onTabItemTap';
+    });
+    onSaveExitState(() => {
+      lifecycleName = 'onSaveExitState';
+    });
+    onPullDownRefresh(() => {
+      lifecycleName = 'onPullDownRefresh';
+    });
+    onResize(() => {
+      lifecycleName = 'onResize';
     });
 
     return () => ({

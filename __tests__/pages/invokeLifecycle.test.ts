@@ -6,22 +6,49 @@ describe('Page: 生命周期', () => {
     const com = getPage('Lifecycle');
     const container = document.createElement('div');
     com.attach(container);
-    expect(com.dom!.innerHTML).toBe('<wx-view>attached</wx-view>');
+    com.instance.onLoad();
 
-    com.triggerLifeTime('ready');
-    await nextTick();
-    expect(com.dom!.innerHTML).toBe('<wx-view>ready</wx-view>');
+    expect(com.dom!.innerHTML).toBe('<wx-view>onLoad</wx-view>');
 
-    com.triggerLifeTime('moved');
+    com.instance.onReady();
     await nextTick();
-    expect(com.dom!.innerHTML).toBe('<wx-view>moved</wx-view>');
+    expect(com.dom!.innerHTML).toBe('<wx-view>onReady</wx-view>');
 
-    com.triggerLifeTime('error');
+    com.instance.onShow();
     await nextTick();
-    expect(com.dom!.innerHTML).toBe('<wx-view>error</wx-view>');
+    expect(com.dom!.innerHTML).toBe('<wx-view>onShow</wx-view>');
 
-    com.detach();
+    com.instance.onHide();
     await nextTick();
-    expect(com.dom!.innerHTML).toBe('<wx-view>detached</wx-view>');
+    expect(com.dom!.innerHTML).toBe('<wx-view>onHide</wx-view>');
+
+    com.instance.onReachBottom();
+    await nextTick();
+    expect(com.dom!.innerHTML).toBe('<wx-view>onReachBottom</wx-view>');
+
+    com.instance.onPageScroll();
+    await nextTick();
+    expect(com.dom!.innerHTML).toBe('<wx-view>onPageScroll</wx-view>');
+
+    com.instance.onTabItemTap();
+    await nextTick();
+    expect(com.dom!.innerHTML).toBe('<wx-view>onTabItemTap</wx-view>');
+
+    com.instance.onSaveExitState();
+    await nextTick();
+    expect(com.dom!.innerHTML).toBe('<wx-view>onSaveExitState</wx-view>');
+
+    com.instance.onPullDownRefresh();
+    await nextTick();
+    expect(com.dom!.innerHTML).toBe('<wx-view>onPullDownRefresh</wx-view>');
+
+    com.instance.onResize();
+    await nextTick();
+    expect(com.dom!.innerHTML).toBe('<wx-view>onResize</wx-view>');
+
+    // 需最后调用该生命周期
+    com.instance.onUnload();
+    await nextTick();
+    expect(com.dom!.innerHTML).toBe('<wx-view>onUnload</wx-view>');
   });
 });

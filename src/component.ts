@@ -111,7 +111,9 @@ const runComponentSetup = <TData, TProperty extends PropertyOption, TMethod exte
     const props = {} as TProperty;
 
     originLifetimes['attached']?.call(this);
-    setCurrentInstance(this);
+    if (__TEST__) {
+      setCurrentInstance(this);
+    }
     registerOldLifecycle(originLifetimes);
     setUpdateData(() => {
       // 如果不是 function 说明是一个 Promise

@@ -1,9 +1,13 @@
+import { runPageSetup } from '../../src/page';
 import { forEachObj } from '../../src/shared';
 
 export const convertingPageToComponent = (options: any) => {
   const methods: any = {};
-  forEachObj(options, (key, value) => {
-    if (typeof value === 'function' && key !== 'setup') {
+  forEachObj(options, (value, key) => {
+    if (typeof value === 'function') {
+      if (key === 'setup') {
+        return delete options.setup;
+      }
       methods[key] = value;
       delete options[key];
     }
@@ -14,5 +18,8 @@ export const convertingPageToComponent = (options: any) => {
 };
 
 export const PageWithSetupForTesting = (options: any) => {
-  return convertingPageToComponent(options)
-}
+  if (options.setup) {
+    runPageSetup(options);
+  }
+  return convertingPageToComponent(options);
+};

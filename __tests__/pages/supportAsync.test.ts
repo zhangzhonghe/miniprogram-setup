@@ -6,6 +6,8 @@ describe('Page: async setup', () => {
     const com = getPage('AsyncSetup');
     const container = document.createElement('div');
     com.attach(container);
+    com.instance.onLoad();
+
     expect(com.dom!.innerHTML).toBe('<wx-view>0</wx-view>');
 
     await nextTick();

@@ -6,6 +6,8 @@ describe('Page: 使用定时器', () => {
     const com = getPage('Timer');
     const container = document.createElement('div');
     com.attach(container);
+    com.instance.onLoad();
+
     expect(com.dom!.innerHTML).toBe('<wx-view>0</wx-view>');
 
     await simulate.sleep(0);

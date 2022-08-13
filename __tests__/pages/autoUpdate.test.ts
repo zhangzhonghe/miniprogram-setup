@@ -5,6 +5,7 @@ describe('Page: 状态更改时，自动更新视图', () => {
   const com = getPage('Counter');
   const container = document.createElement('div');
   com.attach(container);
+  com.instance.onLoad();
 
   it('应该正常渲染初始值', () => {
     expect(com.dom!.innerHTML).toBe('<wx-view>0</wx-view>');
