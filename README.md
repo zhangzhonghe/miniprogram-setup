@@ -16,7 +16,7 @@ npm install miniprogram-setup
 # 一个简单的例子
 
 ```js
-import { ComponentWithSetup, onReady, onDetached } from 'miniprogram-setup';
+import { ComponentWithSetup, onDetached, onReady } from 'miniprogram-setup'
 
 ComponentWithSetup({
   // 完全兼容原生写法
@@ -28,32 +28,31 @@ ComponentWithSetup({
   // 注意：在 setup 中不能访问 data 和 method 中的值，
   // 这是有意做的一层隔离。
   setup(props, { triggerEvent }) {
-    let count = props.default;
+    let count = props.default
 
     // 状态更改会自动更新视图
     const handleClick = () => {
-      count++;
+      count++
 
       // 触发一个事件
-      triggerEvent('update', count);
-    };
+      triggerEvent('update', count)
+    }
 
     // 组件挂载时运行
     onReady(() => {
-      console.log('ready');
-    });
+      console.log('ready')
+    })
     // 组件销毁时运行
     onDetached(() => {
-      console.log('detached');
+      console.log('detached')
     })
 
     return () => ({
       count,
       handleClick
-    });
+    })
   },
-});
-
+})
 
 ```
 对应的 wxml 文件：
