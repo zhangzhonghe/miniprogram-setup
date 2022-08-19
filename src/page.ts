@@ -3,16 +3,16 @@ import {
   LifecycleStore,
   getLifecycleStore,
   PageLifecycle,
-  onHide,
-  onUnload,
-  onShow,
-  onReady,
+  onPageHide,
+  onPageUnload,
+  onPageShow,
+  onPageReady,
   onPageScroll,
   onReachBottom,
   onTabItemTap,
   onPullDownRefresh,
   onSaveExitState,
-  onResize,
+  onPageResize,
   emptyLifecycleStore,
 } from './pageLifecycle';
 import { forEachObj, isFunction } from './shared';
@@ -121,7 +121,7 @@ export const runPageSetup = <TData extends DataOption, TCustom extends CustomOpt
 
       // 页面销毁时清空已注册的生命周期函数
       // 注意：需放在 setup 之后，不然其它注册的 detached 函数不会执行
-      onUnload(() => emptyLifecycleStore(this));
+      onPageUnload(() => emptyLifecycleStore(this));
     }
   };
 };
@@ -170,11 +170,11 @@ const registerLifecyle = <TData extends DataOption, TCustom extends CustomOption
 const registerOldLifecycle = (lifetimes: Record<string, any>) => {
   forEachObj(lifetimes, (handler, key) => {
     if (key === 'onLoad') return;
-    key === PageLifecycle.onShow && onShow(handler);
-    key === PageLifecycle.onHide && onHide(handler);
-    key === PageLifecycle.onReady && onReady(handler);
-    key === PageLifecycle.onUnload && onUnload(handler);
-    key === PageLifecycle.onResize && onResize(handler);
+    key === PageLifecycle.onPageShow && onPageShow(handler);
+    key === PageLifecycle.onPageHide && onPageHide(handler);
+    key === PageLifecycle.onPageReady && onPageReady(handler);
+    key === PageLifecycle.onPageUnload && onPageUnload(handler);
+    key === PageLifecycle.onPageResize && onPageResize(handler);
     key === PageLifecycle.onPullDownRefresh && onPullDownRefresh(handler);
     key === PageLifecycle.onReachBottom && onReachBottom(handler);
     key === PageLifecycle.onPageScroll && onPageScroll(handler);
@@ -185,9 +185,9 @@ const registerOldLifecycle = (lifetimes: Record<string, any>) => {
 
 const getOldLifetimes = (options: Record<string, any>) => {
   const result: Record<string, any> = {};
-  forEachObj(PageLifecycle, (v, key) => {
-    if (options[key]) {
-      result[key] = v;
+  forEachObj(PageLifecycle, (v) => {
+    if (options[v]) {
+      result[v] = options[v];
     }
   });
   return result;

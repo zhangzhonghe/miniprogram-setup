@@ -3,36 +3,40 @@ import { forEachObj } from './shared';
 import { useAutoUpdate } from './useAutoUpdate';
 
 export enum PageLifecycle {
-  onLoad = 'onLoad',
-  onShow = 'onShow',
-  onHide = 'onHide',
-  onReady = 'onReady',
-  onUnload = 'onUnload',
-  onResize = 'onResize',
+  onPageLoad = 'onLoad',
+  onPageShow = 'onShow',
+  onPageHide = 'onHide',
+  onPageReady = 'onReady',
+  onPageUnload = 'onUnload',
+  onPageResize = 'onResize',
+  onPageScroll = 'onPageScroll',
   onPullDownRefresh = 'onPullDownRefresh',
   onReachBottom = 'onReachBottom',
-  onPageScroll = 'onPageScroll',
   onTabItemTap = 'onTabItemTap',
   onSaveExitState = 'onSaveExitState',
 }
 
 /** 生命周期回调—监听页面显示 */
-export const onShow = (handler: () => void) => registerPageLifecyle(PageLifecycle.onShow, handler);
+export const onPageShow = (handler: () => void) => registerPageLifecyle(PageLifecycle.onPageShow, handler);
 
 /** 生命周期回调—监听页面隐藏 */
-export const onHide = (handler: () => void) => registerPageLifecyle(PageLifecycle.onHide, handler);
-
-/** 页面尺寸改变时触发 */
-export const onResize = (handler: () => void) =>
-  registerPageLifecyle(PageLifecycle.onResize, handler);
+export const onPageHide = (handler: () => void) => registerPageLifecyle(PageLifecycle.onPageHide, handler);
 
 /** 生命周期回调—监听页面初次渲染完成 */
-export const onReady = (handler: () => void) =>
-  registerPageLifecyle(PageLifecycle.onReady, handler);
+export const onPageReady = (handler: () => void) =>
+  registerPageLifecyle(PageLifecycle.onPageReady, handler);
 
 /** 生命周期回调—监听页面卸载 */
-export const onUnload = (handler: () => void) =>
-  registerPageLifecyle(PageLifecycle.onUnload, handler);
+export const onPageUnload = (handler: () => void) =>
+  registerPageLifecyle(PageLifecycle.onPageUnload, handler);
+
+/** 页面尺寸改变时触发 */
+export const onPageResize = (handler: () => void) =>
+  registerPageLifecyle(PageLifecycle.onPageResize, handler);
+
+/** 页面滚动触发事件的处理函数 */
+export const onPageScroll = (handler: () => void) =>
+  registerPageLifecyle(PageLifecycle.onPageScroll, handler);
 
 /** 监听用户下拉动作 */
 export const onPullDownRefresh = (handler: () => void) =>
@@ -41,10 +45,6 @@ export const onPullDownRefresh = (handler: () => void) =>
 /** 页面上拉触底事件的处理函数 */
 export const onReachBottom = (handler: () => void) =>
   registerPageLifecyle(PageLifecycle.onReachBottom, handler);
-
-/** 页面滚动触发事件的处理函数 */
-export const onPageScroll = (handler: () => void) =>
-  registerPageLifecyle(PageLifecycle.onPageScroll, handler);
 
 /** 当前是 tab 页时，点击 tab 时触发 */
 export const onTabItemTap = (handler: () => void) =>

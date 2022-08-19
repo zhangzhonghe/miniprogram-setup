@@ -1,37 +1,37 @@
 import { PageWithSetupForTesting } from '../../utils/convertingPageToComponent';
 import {
-  onHide,
+  onPageHide,
   onPageScroll,
   onPullDownRefresh,
   onReachBottom,
-  onReady,
-  onResize,
+  onPageReady,
+  onPageResize,
   onSaveExitState,
-  onShow,
+  onPageShow,
   onTabItemTap,
-  onUnload,
-} from '../../../src/pageLifecycle';
+  onPageUnload,
+} from '../../../src';
 
 PageWithSetupForTesting({
   setup() {
     let lifecycleName = 'onLoad';
 
-    onShow(async () => {
+    onPageShow(async () => {
       lifecycleName = await 'onShow';
     });
-    onHide(async () => {
+    onPageHide(async () => {
       lifecycleName = await 'onHide';
     });
     onReachBottom(async () => {
       lifecycleName = await 'onReachBottom';
     });
-    onReady(async () => {
+    onPageReady(async () => {
       lifecycleName = await 'onReady';
     });
     onPageScroll(async () => {
       lifecycleName = await 'onPageScroll';
     });
-    onUnload(async () => {
+    onPageUnload(async () => {
       lifecycleName = await 'onUnload';
     });
     onTabItemTap(async () => {
@@ -43,7 +43,7 @@ PageWithSetupForTesting({
     onPullDownRefresh(async () => {
       lifecycleName = await 'onPullDownRefresh';
     });
-    onResize(async () => {
+    onPageResize(async () => {
       lifecycleName = await 'onResize';
     });
 
