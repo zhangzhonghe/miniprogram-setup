@@ -15,4 +15,4 @@ module.exports = {
     '^@tests/(.*?)$': '<rootDir>/__tests__/$1',
   },
   testMatch: ['<rootDir>/__tests__/**/*.test.[jt]s'],
-};
+}

@@ -1,54 +1,54 @@
-import { PageWithSetupForTesting } from '@tests/utils/convertingPageToComponent';
+import { PageWithSetupForTesting } from '@tests/utils/convertingPageToComponent'
 import {
   onPageHide,
-  onPageScroll,
-  onPullDownRefresh,
-  onReachBottom,
   onPageReady,
   onPageResize,
-  onSaveExitState,
+  onPageScroll,
   onPageShow,
-  onTabItemTap,
   onPageUnload,
-} from '@/index';
+  onPullDownRefresh,
+  onReachBottom,
+  onSaveExitState,
+  onTabItemTap,
+} from '@/index'
 
 PageWithSetupForTesting({
   setup() {
-    let lifecycleName = 'onLoad';
+    let lifecycleName = 'onLoad'
 
     onPageShow(async () => {
-      lifecycleName = await 'onShow';
-    });
+      lifecycleName = await 'onShow'
+    })
     onPageHide(async () => {
-      lifecycleName = await 'onHide';
-    });
+      lifecycleName = await 'onHide'
+    })
     onReachBottom(async () => {
-      lifecycleName = await 'onReachBottom';
-    });
+      lifecycleName = await 'onReachBottom'
+    })
     onPageReady(async () => {
-      lifecycleName = await 'onReady';
-    });
+      lifecycleName = await 'onReady'
+    })
     onPageScroll(async () => {
-      lifecycleName = await 'onPageScroll';
-    });
+      lifecycleName = await 'onPageScroll'
+    })
     onPageUnload(async () => {
-      lifecycleName = await 'onUnload';
-    });
+      lifecycleName = await 'onUnload'
+    })
     onTabItemTap(async () => {
-      lifecycleName = await 'onTabItemTap';
-    });
+      lifecycleName = await 'onTabItemTap'
+    })
     onSaveExitState(async () => {
-      lifecycleName = await 'onSaveExitState';
-    });
+      lifecycleName = await 'onSaveExitState'
+    })
     onPullDownRefresh(async () => {
-      lifecycleName = await 'onPullDownRefresh';
-    });
+      lifecycleName = await 'onPullDownRefresh'
+    })
     onPageResize(async () => {
-      lifecycleName = await 'onResize';
-    });
+      lifecycleName = await 'onResize'
+    })
 
     return () => ({
       lifecycleName,
-    });
+    })
   },
-});
+})

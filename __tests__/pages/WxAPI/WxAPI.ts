@@ -1,24 +1,24 @@
-import { PageWithSetupForTesting } from '@tests/utils/convertingPageToComponent';
+import { PageWithSetupForTesting } from '@tests/utils/convertingPageToComponent'
 
 PageWithSetupForTesting({
   setup() {
-    let status = 'pending';
+    let status = 'pending'
 
     wx.request({
       url: 'test',
       success: () => {
-        status = 'success';
+        status = 'success'
       },
       fail: () => {
-        status = 'fail';
+        status = 'fail'
       },
       complete: () => {
-        status = 'complete';
+        status = 'complete'
       },
-    });
+    })
 
     return () => ({
       status,
-    });
+    })
   },
-});
+})

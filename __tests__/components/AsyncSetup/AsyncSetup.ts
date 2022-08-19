@@ -1,4 +1,4 @@
-import { ComponentWithSetup } from '@/index';
+import { ComponentWithSetup } from '@/index'
 
 ComponentWithSetup({
   data: {
@@ -6,14 +6,14 @@ ComponentWithSetup({
   },
 
   async setup() {
-    let count = await getCount();
+    const count = await getCount()
 
     return () => ({
       count,
-    });
-  }
+    })
+  },
 })
 
 async function getCount() {
-  return 1;
+  return 1
 }

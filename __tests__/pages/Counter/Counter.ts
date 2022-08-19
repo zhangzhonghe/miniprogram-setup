@@ -1,16 +1,16 @@
-import { PageWithSetupForTesting } from '@tests/utils/convertingPageToComponent';
+import { PageWithSetupForTesting } from '@tests/utils/convertingPageToComponent'
 
 PageWithSetupForTesting({
   setup() {
-    let count = 0;
+    let count = 0
 
     const increment = () => {
-      count++;
-    };
+      count++
+    }
 
     return () => ({
       count,
       increment,
-    });
+    })
   },
-});
+})

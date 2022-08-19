@@ -1,26 +1,26 @@
-import '@/meta';
-import { runPageSetup } from '@/page';
-import { forEachObj } from '@/shared';
+import '@/meta'
+import { runPageSetup } from '@/page'
+import { forEachObj } from '@/shared'
 
 export const convertingPageToComponent = (options: any) => {
-  const methods: any = {};
+  const methods: any = {}
   forEachObj(options, (value, key) => {
     if (typeof value === 'function') {
-      if (key === 'setup') {
-        return delete options.setup;
-      }
-      methods[key] = value;
-      delete options[key];
-    }
-  });
-  options.methods = methods;
+      if (key === 'setup')
+        return delete options.setup
 
-  return Component(options);
-};
+      methods[key] = value
+      delete options[key]
+    }
+  })
+  options.methods = methods
+
+  return Component(options)
+}
 
 export const PageWithSetupForTesting = (options: any) => {
-  if (options.setup) {
-    runPageSetup(options);
-  }
-  return convertingPageToComponent(options);
-};
+  if (options.setup)
+    runPageSetup(options)
+
+  return convertingPageToComponent(options)
+}

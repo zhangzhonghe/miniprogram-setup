@@ -1,5 +1,5 @@
-import path from 'path';
-import simulate from 'miniprogram-simulate';
+import path from 'path'
+import simulate from 'miniprogram-simulate'
 
 /**
  * miniprogram-simulate 不支持 Page 构造器
@@ -8,6 +8,6 @@ import simulate from 'miniprogram-simulate';
  * @returns
  */
 export const getPage = (pageName: string) => {
-  const pagePath = path.resolve(__dirname, `../pages/${pageName}/${pageName}`);
-  return simulate.render(simulate.load(pagePath));
-};
+  const pagePath = path.resolve(__dirname, `../pages/${pageName}/${pageName}`)
+  return simulate.render(simulate.load(pagePath))
+}

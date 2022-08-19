@@ -1,19 +1,19 @@
-import { ComponentWithSetup, onMoved } from '@/index';
-import { nextTick } from '@/useAutoUpdate';
+import { ComponentWithSetup, onMoved } from '@/index'
+import { nextTick } from '@/useAutoUpdate'
 
 ComponentWithSetup({
   async setup() {
-    let name = 'attached';
+    let name = 'attached'
 
-    await nextTick();
-    name = 'beforeMove';
+    await nextTick()
+    name = 'beforeMove'
 
     onMoved(() => {
-      name = 'moved';
-    });
+      name = 'moved'
+    })
 
     return () => ({
       name,
-    });
+    })
   },
-});
+})

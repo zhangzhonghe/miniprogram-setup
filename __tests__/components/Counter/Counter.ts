@@ -1,16 +1,16 @@
-import { ComponentWithSetup } from '@/index';
+import { ComponentWithSetup } from '@/index'
 
 ComponentWithSetup({
   setup() {
-    let count = 0;
+    let count = 0
 
     const increment = () => {
-      count++;
-    };
+      count++
+    }
 
     return () => ({
       count,
       increment,
-    });
+    })
   },
-});
+})

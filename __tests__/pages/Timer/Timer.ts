@@ -1,22 +1,21 @@
-import { PageWithSetupForTesting } from '@tests/utils/convertingPageToComponent';
+import { PageWithSetupForTesting } from '@tests/utils/convertingPageToComponent'
 
 PageWithSetupForTesting({
   setup() {
-    let count = 0;
+    let count = 0
 
     setTimeout(() => {
-      count++;
-    });
+      count++
+    })
 
     const timerId = setInterval(() => {
-      count++;
-      if (count >= 3) {
-        clearInterval(timerId);
-      }
-    }, 1000);
+      count++
+      if (count >= 3)
+        clearInterval(timerId)
+    }, 1000)
 
     return () => ({
       count,
-    });
+    })
   },
-});
+})

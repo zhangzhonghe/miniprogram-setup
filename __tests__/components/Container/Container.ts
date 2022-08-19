@@ -1,7 +1,7 @@
-import { ComponentWithSetup } from '@/index';
+import { ComponentWithSetup } from '@/index'
 
 ComponentWithSetup({
   setup() {
-    return () => ({});
+    return () => ({})
   },
-});
+})

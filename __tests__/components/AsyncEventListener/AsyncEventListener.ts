@@ -1,20 +1,20 @@
-import { ComponentWithSetup } from '@/index';
+import { ComponentWithSetup } from '@/index'
 
 ComponentWithSetup({
   setup() {
-    let count = 0;
+    let count = 0
 
     const increment = async () => {
-      count = await getCount();
-    };
+      count = await getCount()
+    }
 
     return () => ({
       count,
       increment,
-    });
+    })
   },
-});
+})
 
 async function getCount() {
-  return 1;
+  return 1
 }

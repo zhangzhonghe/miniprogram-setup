@@ -1,9 +1,9 @@
-import './meta';
+import './meta'
 
-export { ComponentWithSetup } from './component';
-export { PageWithSetup } from './page';
-export { useAutoUpdate } from './useAutoUpdate';
-export { onDetached, onReady, onMoved, onError } from './componentLifecycle';
+export { ComponentWithSetup } from './component'
+export { PageWithSetup } from './page'
+export { useAutoUpdate } from './useAutoUpdate'
+export { onDetached, onReady, onMoved, onError } from './componentLifecycle'
 export {
   onPageShow,
   onPageHide,
@@ -15,4 +15,4 @@ export {
   onReachBottom,
   onTabItemTap,
   onSaveExitState,
-} from './pageLifecycle';
+} from './pageLifecycle'

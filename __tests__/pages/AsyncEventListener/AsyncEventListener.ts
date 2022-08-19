@@ -1,20 +1,20 @@
-import { PageWithSetupForTesting } from '@tests/utils/convertingPageToComponent';
+import { PageWithSetupForTesting } from '@tests/utils/convertingPageToComponent'
 
 PageWithSetupForTesting({
   setup() {
-    let count = 0;
+    let count = 0
 
     const increment = async () => {
-      count = await getCount();
-    };
+      count = await getCount()
+    }
 
     return () => ({
       count,
       increment,
-    });
+    })
   },
-});
+})
 
 async function getCount() {
-  return 1;
+  return 1
 }

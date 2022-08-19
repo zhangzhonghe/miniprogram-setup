@@ -1,9 +1,9 @@
-import ts from 'rollup-plugin-typescript2';
-import { terser } from 'rollup-plugin-terser';
-import { nodeResolve } from '@rollup/plugin-node-resolve';
-import replace from '@rollup/plugin-replace';
+import ts from 'rollup-plugin-typescript2'
+import { terser } from 'rollup-plugin-terser'
+import { nodeResolve } from '@rollup/plugin-node-resolve'
+import replace from '@rollup/plugin-replace'
 
-const __DEV__ = process.env.NODE_ENV !== 'production';
+const __DEV__ = process.env.NODE_ENV !== 'production'
 
 export default {
   input: 'src/index.ts',
@@ -15,7 +15,7 @@ export default {
   ],
   plugins: [
     replace({
-      preventAssignment: true,
+      'preventAssignment': true,
       'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
       __DEV__,
     }),
@@ -23,4 +23,4 @@ export default {
     nodeResolve(),
     __DEV__ ? null : terser(),
   ],
-};
+}

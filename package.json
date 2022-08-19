@@ -2,17 +2,16 @@
   "name": "miniprogram-setup",
   "version": "0.0.6",
   "description": "小程序支持 setup 选项",
-  "main": "esm/index.js",
-  "types": "esm/src/index.d.ts",
-  "scripts": {
-    "test": "jest",
-    "dev": "cross-env NODE_ENV=development rollup -c",
-    "build": "cross-env NODE_ENV=production rollup -c",
-    "release": "standard-version"
-  },
+  "author": "张中合",
+  "license": "MIT",
+  "packageManager": "pnpm@7.2.1",
+  "homepage": "https://github.com/zhangzhonghe/miniprogram-lifecycle#readme",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/zhangzhonghe/miniprogram-lifecycle.git"
+  },
+  "bugs": {
+    "url": "https://github.com/zhangzhonghe/miniprogram-lifecycle/issues"
   },
   "keywords": [
     "小程序",
@@ -20,18 +19,24 @@
     "miniprogram",
     "lifecycle"
   ],
-  "author": "张中合",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/zhangzhonghe/miniprogram-lifecycle/issues"
+  "main": "esm/index.js",
+  "types": "esm/src/index.d.ts",
+  "scripts": {
+    "test": "jest",
+    "dev": "cross-env NODE_ENV=development rollup -c",
+    "build": "cross-env NODE_ENV=production rollup -c",
+    "release": "standard-version",
+    "lint": "eslint ./src",
+    "lint:fix": "eslint --fix ./src"
   },
-  "homepage": "https://github.com/zhangzhonghe/miniprogram-lifecycle#readme",
   "devDependencies": {
+    "@antfu/eslint-config": "^0.26.1",
     "@rollup/plugin-node-resolve": "^13.1.3",
     "@rollup/plugin-replace": "^2.3.4",
     "@types/jest": "^27.4.1",
     "@types/node": "^17.0.23",
     "cross-env": "^7.0.3",
+    "eslint": "^8.0.1",
     "jest": "^27.5.1",
     "miniprogram-api-typings": "^3.4.6",
     "miniprogram-simulate": "^1.5.7",
@@ -40,6 +45,7 @@
     "rollup-plugin-typescript2": "^0.31.2",
     "standard-version": "^9.5.0",
     "ts-jest": "^27.1.4",
-    "typescript": "^4.6.4"
+    "tslib": "^2.4.0",
+    "typescript": "*"
   }
 }

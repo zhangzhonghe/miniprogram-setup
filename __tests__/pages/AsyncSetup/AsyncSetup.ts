@@ -1,4 +1,4 @@
-import { PageWithSetupForTesting } from '@tests/utils/convertingPageToComponent';
+import { PageWithSetupForTesting } from '@tests/utils/convertingPageToComponent'
 
 PageWithSetupForTesting({
   data: {
@@ -6,14 +6,14 @@ PageWithSetupForTesting({
   },
 
   async setup() {
-    let count = await getCount();
+    const count = await getCount()
 
     return () => ({
       count,
-    });
-  }
+    })
+  },
 })
 
 async function getCount() {
-  return 1;
+  return 1
 }

@@ -1,54 +1,54 @@
+import { PageWithSetupForTesting } from '@tests/utils/convertingPageToComponent'
 import {
   onPageHide,
-  onPageScroll,
-  onPullDownRefresh,
-  onReachBottom,
   onPageReady,
   onPageResize,
-  onSaveExitState,
+  onPageScroll,
   onPageShow,
-  onTabItemTap,
   onPageUnload,
-} from '@/pageLifecycle';
-import { PageWithSetupForTesting } from '@tests/utils/convertingPageToComponent';
+  onPullDownRefresh,
+  onReachBottom,
+  onSaveExitState,
+  onTabItemTap,
+} from '@/pageLifecycle'
 
 PageWithSetupForTesting({
   setup() {
-    let lifecycleName = 'onLoad';
+    let lifecycleName = 'onLoad'
 
     onPageShow(() => {
-      lifecycleName = 'onShow';
-    });
+      lifecycleName = 'onShow'
+    })
     onPageHide(() => {
-      lifecycleName = 'onHide';
-    });
+      lifecycleName = 'onHide'
+    })
     onReachBottom(() => {
-      lifecycleName = 'onReachBottom';
-    });
+      lifecycleName = 'onReachBottom'
+    })
     onPageReady(() => {
-      lifecycleName = 'onReady';
-    });
+      lifecycleName = 'onReady'
+    })
     onPageScroll(() => {
-      lifecycleName = 'onPageScroll';
-    });
+      lifecycleName = 'onPageScroll'
+    })
     onPageUnload(() => {
-      lifecycleName = 'onUnload';
-    });
+      lifecycleName = 'onUnload'
+    })
     onTabItemTap(() => {
-      lifecycleName = 'onTabItemTap';
-    });
+      lifecycleName = 'onTabItemTap'
+    })
     onSaveExitState(() => {
-      lifecycleName = 'onSaveExitState';
-    });
+      lifecycleName = 'onSaveExitState'
+    })
     onPullDownRefresh(() => {
-      lifecycleName = 'onPullDownRefresh';
-    });
+      lifecycleName = 'onPullDownRefresh'
+    })
     onPageResize(() => {
-      lifecycleName = 'onResize';
-    });
+      lifecycleName = 'onResize'
+    })
 
     return () => ({
       lifecycleName,
-    });
+    })
   },
-});
+})

@@ -1,24 +1,24 @@
-import { ComponentWithSetup, onDetached, onError, onMoved, onReady } from '@/index';
+import { ComponentWithSetup, onDetached, onError, onMoved, onReady } from '@/index'
 
 ComponentWithSetup({
   setup() {
-    let lifecycleName = 'attached';
+    let lifecycleName = 'attached'
 
     onReady(async () => {
-      lifecycleName = await 'ready';
-    });
+      lifecycleName = await 'ready'
+    })
     onMoved(async () => {
-      lifecycleName = await 'moved';
-    });
+      lifecycleName = await 'moved'
+    })
     onDetached(async () => {
-      lifecycleName = await 'detached';
-    });
+      lifecycleName = await 'detached'
+    })
     onError(async () => {
-      lifecycleName = await 'error';
-    });
+      lifecycleName = await 'error'
+    })
 
     return () => ({
       lifecycleName,
-    });
+    })
   },
-});
+})
