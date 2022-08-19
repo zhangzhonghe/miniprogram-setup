@@ -1,3 +1,4 @@
+import '@/meta';
 import { runPageSetup } from '@/page';
 import { forEachObj } from '@/shared';
 
