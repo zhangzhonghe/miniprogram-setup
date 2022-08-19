@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.1.0](https://github.com/zhangzhonghe/miniprogram-lifecycle/compare/v0.0.6...v0.1.0) (2022-08-19)
+
+
+### Bug Fixes
+
+* 确保获取的是正确的实例 ([5238c0b](https://github.com/zhangzhonghe/miniprogram-lifecycle/commit/5238c0b282cc146f9f21b9d3e8272dbbf9174e42))
+* rename ([5854c2c](https://github.com/zhangzhonghe/miniprogram-lifecycle/commit/5854c2c2d881347eda115b9a622ef6a99b4f5b9a))
+* test errors ([d2f17e6](https://github.com/zhangzhonghe/miniprogram-lifecycle/commit/d2f17e66f34f1478d5dc59f46eaa168167e1bf57))
+
 ### 0.0.6 (2022-07-25)
 
 
