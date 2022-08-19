@@ -1,4 +1,4 @@
-import { PageWithSetupForTesting } from '../../utils/convertingPageToComponent';
+import { PageWithSetupForTesting } from '@tests/utils/convertingPageToComponent';
 import {
   onPageHide,
   onPageScroll,
@@ -10,7 +10,7 @@ import {
   onPageShow,
   onTabItemTap,
   onPageUnload,
-} from '../../../src';
+} from '@/index';
 
 PageWithSetupForTesting({
   setup() {

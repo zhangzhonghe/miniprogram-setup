@@ -1,5 +1,5 @@
-import { nextTick } from '../../src/useAutoUpdate';
-import { getPage } from '../utils/getPage';
+import { nextTick } from '@/useAutoUpdate';
+import { getPage } from '@tests/utils/getPage';
 
 describe('Page: 生命周期', () => {
   it('应该正常调用已注册的生命周期函数', async () => {

@@ -1,4 +1,4 @@
-import { getPage } from '../utils/getPage';
+import { getPage } from '@tests/utils/getPage';
 
 describe('Page: 异步的事件监听器', () => {
   it('应该正常调用已注册的异步事件监听器', async () => {

@@ -1,5 +1,5 @@
-import { nextTick } from '../../src/useAutoUpdate';
-import { getPage } from '../utils/getPage';
+import { nextTick } from '@/useAutoUpdate';
+import { getPage } from '@tests/utils/getPage';
 
 describe('Page: wxApi', () => {
   it('success/fail/complete 调用时应该刷新视图', async () => {

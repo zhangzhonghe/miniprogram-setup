@@ -1,5 +1,5 @@
-import { nextTick } from '../../src/useAutoUpdate';
-import { getComponent } from '../utils/getCom';
+import { nextTick } from '@/useAutoUpdate';
+import { getComponent } from '@tests/utils/getCom';
 
 describe('async setup', () => {
   it('正常渲染', async () => {

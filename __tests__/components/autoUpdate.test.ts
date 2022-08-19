@@ -1,5 +1,5 @@
-import { nextTick } from '../../src/useAutoUpdate';
-import { getComponent } from '../utils/getCom';
+import { nextTick } from '@/useAutoUpdate';
+import { getComponent } from '@tests/utils/getCom';
 
 describe('状态更改时，自动更新视图', () => {
   const com = getComponent('Counter');

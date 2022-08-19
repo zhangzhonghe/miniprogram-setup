@@ -1,5 +1,5 @@
-import { nextTick } from '../../src/useAutoUpdate';
-import { getComponent } from '../utils/getCom';
+import { nextTick } from '@/useAutoUpdate';
+import { getComponent } from '@tests/utils/getCom';
 
 describe('生命周期', () => {
   it('应该正常调用已注册的生命周期函数', async () => {

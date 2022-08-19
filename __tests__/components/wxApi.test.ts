@@ -1,5 +1,5 @@
-import { nextTick } from '../../src/useAutoUpdate';
-import { getComponent } from '../utils/getCom';
+import { nextTick } from '@/useAutoUpdate';
+import { getComponent } from '@tests/utils/getCom';
 
 describe('wxApi', () => {
   it('success/fail/complete 调用时应该刷新视图', async () => {

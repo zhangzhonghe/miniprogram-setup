@@ -1,4 +1,4 @@
-import { ComponentWithSetup, onDetached } from '../../../src';
+import { ComponentWithSetup } from '@/index';
 
 ComponentWithSetup({
   setup() {

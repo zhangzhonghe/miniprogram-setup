@@ -1,5 +1,5 @@
-import { ComponentWithSetup, onMoved } from '../../../src';
-import { nextTick } from '../../../src/useAutoUpdate';
+import { ComponentWithSetup, onMoved } from '@/index';
+import { nextTick } from '@/useAutoUpdate';
 
 ComponentWithSetup({
   async setup() {

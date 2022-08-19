@@ -9,8 +9,8 @@ import {
   onPageShow,
   onTabItemTap,
   onPageUnload,
-} from '../../../src/pageLifecycle';
-import { PageWithSetupForTesting } from '../../utils/convertingPageToComponent';
+} from '@/pageLifecycle';
+import { PageWithSetupForTesting } from '@tests/utils/convertingPageToComponent';
 
 PageWithSetupForTesting({
   setup() {

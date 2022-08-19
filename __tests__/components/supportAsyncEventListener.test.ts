@@ -1,4 +1,4 @@
-import { getComponent } from '../utils/getCom';
+import { getComponent } from '@tests/utils/getCom';
 
 describe('异步的事件监听器', () => {
   it('应该正常调用已注册的异步事件监听器', async () => {

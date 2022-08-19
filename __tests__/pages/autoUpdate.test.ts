@@ -1,5 +1,5 @@
-import { nextTick } from '../../src/useAutoUpdate';
-import { getPage } from '../utils/getPage';
+import { nextTick } from '@/useAutoUpdate';
+import { getPage } from '@tests/utils/getPage';
 
 describe('Page: 状态更改时，自动更新视图', () => {
   const com = getPage('Counter');

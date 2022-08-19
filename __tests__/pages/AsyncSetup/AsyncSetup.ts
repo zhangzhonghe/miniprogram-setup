@@ -1,4 +1,4 @@
-import { PageWithSetupForTesting } from '../../utils/convertingPageToComponent';
+import { PageWithSetupForTesting } from '@tests/utils/convertingPageToComponent';
 
 PageWithSetupForTesting({
   data: {

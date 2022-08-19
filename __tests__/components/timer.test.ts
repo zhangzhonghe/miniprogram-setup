@@ -1,5 +1,5 @@
 import simulate from 'miniprogram-simulate';
-import { getComponent } from '../utils/getCom';
+import { getComponent } from '@tests/utils/getCom';
 
 describe('使用定时器', () => {
   it('应该更新视图', async () => {

@@ -1,5 +1,5 @@
 import simulate from 'miniprogram-simulate';
-import { getPage } from '../utils/getPage';
+import { getPage } from '@tests/utils/getPage';
 
 describe('Page: 使用定时器', () => {
   it('应该更新视图', async () => {

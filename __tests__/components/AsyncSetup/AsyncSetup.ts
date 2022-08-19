@@ -1,4 +1,4 @@
-import { ComponentWithSetup } from '../../../src';
+import { ComponentWithSetup } from '@/index';
 
 ComponentWithSetup({
   data: {

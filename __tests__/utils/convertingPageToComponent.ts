@@ -1,5 +1,5 @@
-import { runPageSetup } from '../../src/page';
-import { forEachObj } from '../../src/shared';
+import { runPageSetup } from '@/page';
+import { forEachObj } from '@/shared';
 
 export const convertingPageToComponent = (options: any) => {
   const methods: any = {};

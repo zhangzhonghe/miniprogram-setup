@@ -1,4 +1,4 @@
-import { ComponentWithSetup, onDetached, onError, onMoved, onReady } from '../../../src';
+import { ComponentWithSetup, onDetached, onError, onMoved, onReady } from '@/index';
 
 ComponentWithSetup({
   setup() {

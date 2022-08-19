@@ -1,5 +1,5 @@
-import { nextTick } from '../../src/useAutoUpdate';
-import { getPage } from '../utils/getPage';
+import { nextTick } from '@/useAutoUpdate';
+import { getPage } from '@tests/utils/getPage';
 
 describe('Page: 异步的生命周期函数', () => {
   it('应该正常调用已注册的异步生命周期函数，且显示正确的状态', async () => {
