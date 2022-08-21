@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.2](https://github.com/zhangzhonghe/miniprogram-lifecycle/compare/v0.1.1...v0.1.2) (2022-08-21)
+
+
+### Bug Fixes
+
+* __TEST__ is not defined ([aab674e](https://github.com/zhangzhonghe/miniprogram-lifecycle/commit/aab674eee4134c0048efd5608671cc604aaca404))
+
 ### [0.1.1](https://github.com/zhangzhonghe/miniprogram-lifecycle/compare/v0.1.0...v0.1.1) (2022-08-21)
 
 
