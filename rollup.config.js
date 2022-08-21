@@ -18,6 +18,7 @@ export default {
       'preventAssignment': true,
       'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
       __DEV__,
+      __TEST__: false,
     }),
     ts(),
     nodeResolve(),
