@@ -1,7 +1,7 @@
 {
   "name": "miniprogram-setup",
   "type": "module",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "packageManager": "pnpm@7.2.1",
   "description": "小程序支持 setup 选项",
   "author": "张中合 <958414905@qq.com>",
