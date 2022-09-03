@@ -12,7 +12,11 @@ const originWx = wx
 if (!originThen.$$isRewritten) {
   // Promise
   Promise.prototype.then = function (onFulfilled, onRejected) {
-    return originThen.call(this, useAutoUpdate(onFulfilled), useAutoUpdate(onRejected))
+    return originThen.call(
+      this,
+      useAutoUpdate(onFulfilled),
+      useAutoUpdate(onRejected),
+    )
   }
   Promise.prototype.catch = async function (onRejected) {
     return await originCatch.call(this, useAutoUpdate(onRejected))
@@ -23,11 +27,15 @@ if (!originThen.$$isRewritten) {
 
   // Timer
   const originSetTimeout = setTimeout
+  const originSetInterval = setInterval
   // @ts-expect-error
   setTimeout = function (this: any, fn: any, ...args: any[]) {
     return originSetTimeout.call(this, useAutoUpdate(fn)!, ...args)
   }
-  // TODO: setInterval 好像是基于 setTimeout 实现的？所以只需要替换 setTimeout 即可。
+  // @ts-expect-error
+  setInterval = function (this: any, fn: any, ...args: any[]) {
+    return originSetInterval.call(this, useAutoUpdate(fn)!, ...args)
+  }
 
   // 小程序 API
   rewriteMiniProgramAPI()
