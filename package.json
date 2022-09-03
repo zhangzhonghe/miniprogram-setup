@@ -25,7 +25,7 @@
     "test": "jest",
     "dev": "rimraf esm & cross-env NODE_ENV=development rollup -c",
     "build": "rimraf esm & cross-env NODE_ENV=production rollup -c",
-    "release": "standard-version & npm publish",
+    "release": "npm run build & standard-version & npm publish",
     "lint": "eslint ./src",
     "lint:fix": "eslint --fix ./src"
   },
